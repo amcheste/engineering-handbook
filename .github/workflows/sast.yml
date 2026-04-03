@@ -34,6 +34,7 @@ jobs:
           generateSarif: "1"
 
       - uses: github/codeql-action/upload-sarif@d4b3ca9fa7f69d38bfcd667bdc45bc373d16277e # v4
-        if: always() && github.event_name != 'pull_request'
+        if: always() && github.ref == 'refs/heads/main'
+        continue-on-error: true
         with:
           sarif_file: semgrep.sarif
