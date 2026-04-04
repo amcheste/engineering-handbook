@@ -23,7 +23,7 @@ This file is read by Claude Code at the start of every session in this repo.
 - **Branch model:** `main` = latest release. `develop` = integration branch.
 - Always branch from `develop`, never commit directly
 - PRs always target `develop`
-- `main` is only updated via the develop→main release PR opened by `/publish-release`
+- `main` is only updated via CLI merge (`git merge --no-ff origin/develop`) by `/publish-release` — **never via a GitHub PR**. GitHub's merge button squash-merges by default, dropping ancestry and causing conflicts on the next release.
 - Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
 
 ### Scripting Standards
