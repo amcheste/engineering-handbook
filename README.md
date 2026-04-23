@@ -21,6 +21,12 @@ It is a living document. Expect it to grow and change as my thinking evolves.
 
 - [Tooling Stack](docs/tooling-stack.md) — the AI-assisted development stack I use, and the end-to-end workflows that run on top of it.
 
+### Design notes
+
+Brainstorm-level design docs capturing how I'm thinking about specific engineering problems. Not polished specs — working documents that evolve as decisions get made.
+
+- [Claude Bot Account for AI-Authored PRs](docs/design/claude-bot-account.md) — separating authorship from review so AI-written code has a clean audit trail.
+
 _More chapters on engineering philosophies, team workflows, and operating principles are in progress._
 
 ## How this repo works
