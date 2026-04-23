@@ -24,12 +24,16 @@ It is a living document. Expect it to grow and change as my thinking evolves.
 The *why* — principles that explain the decisions behind how I work. These change slowly.
 
 - [Branching Strategy](docs/philosophies/branching-strategy.md) — why every repo runs on `develop` / `main` with CLI-merged releases and conventional commits.
+- [Release Cadence & Semver Discipline](docs/philosophies/release-cadence.md) — why releases are a deliberate ceremony, why the monthly patch cycle, and how conventional commits drive the version number.
+- [Security Posture](docs/philosophies/security-posture.md) — why every repo ships with the same SAST, Scorecard, CODEOWNERS, and SLA baseline from day one.
+- [Testing](docs/philosophies/testing.md) — why I write the tests I write, and why I don't write the ones I don't.
 
 ### Workflows
 
 The *how* — concrete steps, commands, and tooling that implement the philosophies. These change as tools evolve.
 
 - [Branching & Releases](docs/workflows/branching-and-releases.md) — branch model, day-to-day flow, and the release ceremony.
+- [CI Automation Surface](docs/workflows/ci-automation.md) — the GitHub Actions workflows that ship with every repo, what each does, and when it fires.
 
 ### Tooling
 
