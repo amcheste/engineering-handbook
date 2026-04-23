@@ -19,6 +19,20 @@ It is a living document. Expect it to grow and change as my thinking evolves.
 
 ## Contents
 
+### Philosophies
+
+The *why* — principles that explain the decisions behind how I work. These change slowly.
+
+- [Branching Strategy](docs/philosophies/branching-strategy.md) — why every repo runs on `develop` / `main` with CLI-merged releases and conventional commits.
+
+### Workflows
+
+The *how* — concrete steps, commands, and tooling that implement the philosophies. These change as tools evolve.
+
+- [Branching & Releases](docs/workflows/branching-and-releases.md) — branch model, day-to-day flow, and the release ceremony.
+
+### Tooling
+
 - [Tooling Stack](docs/tooling-stack.md) — the AI-assisted development stack I use, and the end-to-end workflows that run on top of it.
 
 ### Design notes
@@ -27,7 +41,7 @@ Brainstorm-level design docs capturing how I'm thinking about specific engineeri
 
 - [Claude Bot Account for AI-Authored PRs](docs/design/claude-bot-account.md) — separating authorship from review so AI-written code has a clean audit trail.
 
-_More chapters on engineering philosophies, team workflows, and operating principles are in progress._
+_More chapters are in progress._
 
 ## How this repo works
 
