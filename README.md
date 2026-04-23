@@ -1,8 +1,8 @@
 <div align="center">
 
-# engineering-handbook
+# Alan's Engineering Handbook
 
-**Engineer-first. AI-amplified. A living handbook of how I build software.**
+**How I build software — and the philosophies behind it.**
 
 [![Validate](https://github.com/amcheste/engineering-handbook/actions/workflows/validate.yml/badge.svg)](https://github.com/amcheste/engineering-handbook/actions/workflows/validate.yml)
 [![Version](https://img.shields.io/github/v/tag/amcheste/engineering-handbook?label=version&sort=semver)](https://github.com/amcheste/engineering-handbook/releases)
@@ -35,9 +35,9 @@ The *how* — concrete steps, commands, and tooling that implement the philosoph
 - [Branching & Releases](docs/workflows/branching-and-releases.md) — branch model, day-to-day flow, and the release ceremony.
 - [CI Automation Surface](docs/workflows/ci-automation.md) — the GitHub Actions workflows that ship with every repo, what each does, and when it fires.
 
-### Tooling
+### Development Tooling Stack
 
-- [Tooling Stack](docs/tooling-stack.md) — the AI-assisted development stack I use, and the end-to-end workflows that run on top of it.
+- [Development Tooling Stack](docs/tooling/dev-tooling-stack.md) — the AI-assisted development stack I use, and the end-to-end workflows that run on top of it.
 
 ### Design notes
 

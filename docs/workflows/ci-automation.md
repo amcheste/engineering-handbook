@@ -20,6 +20,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 | `monthly-dependency-release.yml` | 1st of month cron + `workflow_dispatch` | Open patch release PR if deps merged | No |
 | `release.yml` | `v*` tag push | Publish the release (validate → gate → publish) | N/A (post-release) |
 | `sast.yml` | Weekly cron + push/PR to `main`/`develop` | Semgrep static analysis | No (reports only) |
+| `gitleaks.yml` | Push/PR to `main`/`develop` | Secret scan as CI backstop (primary line is the pre-commit hook) | Yes |
 | `scorecard.yml` | Weekly cron + branch-protection changes + push to `main` | OpenSSF Scorecard posture | No (reports only) |
 | `stale.yml` | Daily cron | Close inactive issues/PRs | N/A |
 | `acceptance.yml` (where applicable) | PR to `main` + `workflow_dispatch` | Heavy end-to-end tests | Yes (at release PR) |
@@ -112,6 +113,21 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 ---
 
+## `gitleaks.yml` — secret-scan CI backstop
+
+**Fires on:** push/PR to `main` or `develop`.
+
+**Does:** Runs [gitleaks](https://github.com/gitleaks/gitleaks) against the changes. Fails the job (and therefore gates the merge) if a secret is detected.
+
+**Why it matters:** The primary defense against committing secrets is the **pre-commit hook** (also gitleaks, wired via the [pre-commit framework](https://pre-commit.com/) and `.pre-commit-config.yaml` in the repo). Developers install it once with `pre-commit install` and every `git commit` runs the scan before the commit is created. The CI check here is a belt-and-suspenders layer for:
+- contributors without pre-commit installed
+- `git commit --no-verify` bypasses
+- Claude Code sessions or other automation that doesn't run local hooks
+
+See [Security Posture §4](../philosophies/security-posture.md#4-prevent-secrets-before-they-land-in-git-history) for the full three-layer model and why prevention beats audit.
+
+---
+
 ## `scorecard.yml` — OpenSSF Scorecard
 
 **Fires on:** weekly cron (Monday ~01:30 UTC) + push to `main` + branch-protection-rule changes.
@@ -120,7 +136,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 **Config:** `continue-on-error: true` on private repos (Scorecard doesn't work well on private) — no noise for repos it can't give a useful answer on.
 
-**Why it matters:** Third-party audit of branch protection, token scoping, dependency pinning, etc. Catches drift. See [Security Posture philosophy §4](../philosophies/security-posture.md#4-supply-chain-hygiene-via-scorecard).
+**Why it matters:** Third-party audit of branch protection, token scoping, dependency pinning, etc. Catches drift. See [Security Posture philosophy §5](../philosophies/security-posture.md#5-supply-chain-hygiene-via-scorecard).
 
 ---
 
@@ -133,7 +149,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 - Closes them after another **7 days** of continued inactivity.
 - Exempt labels: `pinned`, `security`.
 
-**Why `security` is exempt:** real security reports should never auto-close. See [Security Posture philosophy §7](../philosophies/security-posture.md#7-stale-issues-are-a-security-concern).
+**Why `security` is exempt:** real security reports should never auto-close. See [Security Posture philosophy §8](../philosophies/security-posture.md#8-stale-issues-are-a-security-concern).
 
 ---
 

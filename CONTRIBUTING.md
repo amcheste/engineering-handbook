@@ -19,11 +19,11 @@ This is a documentation repo, so the contribution model is the same as any other
 4. Open a PR targeting `develop`.
 5. CI (`Lint`, `Commit Lint`) must pass before merging.
 
-## What belongs here
+## What belongs where
 
 - **Philosophies** (`docs/philosophies/`) — durable *why* content. Principles that justify decisions. Changes slowly.
 - **Workflows** (`docs/workflows/`) — concrete *how* content. Steps, commands, tooling. Changes as tools evolve.
-- **Tooling** (`docs/tooling-stack.md` and future siblings) — what I use and how it fits together.
+- **Tooling** (`docs/tooling/`) — what I use and how it fits together. Start at [`docs/tooling/dev-tooling-stack.md`](docs/tooling/dev-tooling-stack.md).
 - **Design notes** (`docs/design/`) — brainstorm-level proposals. Not polished specs.
 
 If a note is truly repo-specific (only applies to one project), it belongs in that repo, not here. If it applies to all my repos, it belongs here.

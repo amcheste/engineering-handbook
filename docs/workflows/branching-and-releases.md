@@ -171,4 +171,4 @@ feature branch ──► develop ──► develop ──► main ──► v1.2
 ## Related
 
 - [Branching Strategy philosophy](../philosophies/branching-strategy.md) — the reasoning behind every decision above.
-- [Tooling Stack](../tooling-stack.md) — how this workflow runs inside the broader AI-assisted development stack.
+- [Development Tooling Stack](../tooling/dev-tooling-stack.md) — how this workflow runs inside the broader AI-assisted development stack.

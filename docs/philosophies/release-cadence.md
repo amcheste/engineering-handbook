@@ -84,6 +84,30 @@ This also means tags are protected (ruleset on `refs/tags/v*` — no creation, d
 
 The release pipeline handles this automatically based on the tag format. No separate workflow, no manual steps, no risk of accidentally promoting a beta to latest.
 
+### What each pre-release stage means
+
+Semver technically just says "anything after `-` is a pre-release." That's too loose to coordinate around. I follow the [Kubernetes pre-release convention](https://kubernetes.io/docs/reference/using-api/#api-versioning), adapted for single-maintainer projects:
+
+| Stage | Suffix | What it signals |
+|---|---|---|
+| **Alpha** | `-alpha.N` (e.g. `1.0.0-alpha.3`) | Experimental. APIs and behavior **will change** without notice. Features may be off by default or gated. I may drop or redesign them before the stable release. Use at your own risk. |
+| **Beta** | `-beta.N` (e.g. `1.0.0-beta.1`) | Feature-complete for this release cycle. APIs are well-tested and won't silently break, but details may still shift in response to feedback. Features default to on. Suitable for non-critical use. |
+| **Release Candidate** | `-rc.N` (e.g. `1.0.0-rc.2`) | Code-complete. **Only bug fixes** land between RCs and the stable release — no new features, no API changes. If no blockers surface, the next version tagged is the stable release. |
+| **Stable** | no suffix (e.g. `1.0.0`) | Supported. Becomes `latest`. Ready for production use within the support policy. |
+
+The progression: `alpha` → `beta` → `rc` → stable. Each stage is a promise about *what can change between now and the next tag*.
+
+For solo or small-scale projects, I often skip alpha and go straight to beta when the shape is clear enough. Alpha is mostly useful when you have external users you want to involve early in API decisions.
+
+### The contract each stage makes
+
+- **Alpha:** "I'm showing you this so you can tell me it's wrong."
+- **Beta:** "I think this is right. Please tell me if you hit anything."
+- **RC:** "I'm trying to ship. Please tell me if I'm about to ship something broken."
+- **Stable:** "This is supported. File bugs."
+
+The value of this discipline is that consumers (including future-me) know what promise they're accepting when they install a particular tag.
+
 ---
 
 ## 7. Release notes are derived, not written

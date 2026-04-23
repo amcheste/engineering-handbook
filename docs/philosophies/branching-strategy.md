@@ -97,4 +97,4 @@ This is also why this handbook is canonical — per-repo `CONTRIBUTING.md` files
 ## Related
 
 - [Branching & Releases](../workflows/branching-and-releases.md) — the concrete steps, commands, and tooling.
-- [Tooling Stack](../tooling-stack.md) — how this workflow fits into the broader AI-assisted development stack.
+- [Development Tooling Stack](../tooling/dev-tooling-stack.md) — how this workflow fits into the broader AI-assisted development stack.

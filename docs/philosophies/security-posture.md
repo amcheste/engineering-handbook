@@ -44,7 +44,47 @@ The rule pack is intentionally minimal — `p/secrets` by default, language-spec
 
 ---
 
-## 4. Supply-chain hygiene via Scorecard
+## 4. Prevent secrets *before* they land in git history
+
+**Principle:** Every repo runs a secret scanner as a pre-commit hook, blocking commits that contain API keys, tokens, or credentials *before* they become part of git history. SAST and GitHub's secret scanning catch what slips through, but the primary defense is stopping the commit from ever happening.
+
+**Why:** Once a secret is in git history, it's compromised. Rotating the secret is necessary; rewriting history is messy, often incomplete (forks, mirrors, clones), and doesn't help if the secret was exposed publicly for any length of time. The only reliable fix is "don't let it in." That has to happen at the developer's machine, before the `git commit` returns.
+
+Three layers work together, in order of increasing cost:
+
+| Layer | Tool | Catches | Cost |
+|---|---|---|---|
+| **1. Pre-commit hook** (preferred) | [gitleaks](https://github.com/gitleaks/gitleaks) or [detect-secrets](https://github.com/Yelp/detect-secrets) via [pre-commit](https://pre-commit.com/) | Secrets in staged changes before `git commit` succeeds | Developer-side, zero CI impact |
+| **2. CI scan on PRs** | Gitleaks in a GitHub Action | Secrets that bypassed the pre-commit hook (e.g. a contributor without hooks installed, `--no-verify`) | Blocks the merge |
+| **3. GitHub secret scanning** (public repos) | GitHub's built-in service | Known provider tokens (AWS, Stripe, OpenAI, etc.) that land anyway; providers get notified to revoke | Post-hoc; relies on provider partnership |
+
+The pre-commit hook is doing most of the work. The CI scan is a belt-and-suspenders layer for contributors or sessions without hooks. GitHub's scanning is the last-resort safety net.
+
+**Template wiring (via `pre-commit` framework):**
+
+```yaml
+# .pre-commit-config.yaml at repo root
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.x
+    hooks:
+      - id: gitleaks
+```
+
+Developers install once: `pre-commit install`. From then on, every `git commit` runs the hook. A secret in a staged diff fails the commit.
+
+**CI backstop:** every repo's `validate.yml` runs `gitleaks detect` against the PR. If the pre-commit hook was bypassed or wasn't installed, the PR fails to merge.
+
+**If a secret does leak:**
+1. Rotate the secret immediately (invalidate the leaked credential).
+2. Don't rely on `git push --force` to fix it — the secret was already pulled by any CI system, fork, mirror, or clone.
+3. Document the incident in the repo's security notes (or Linear) so future-me remembers.
+
+The handbook's position: **rotation is the fix, not history rewriting.** Pre-commit prevention is what keeps rotations rare.
+
+---
+
+## 5. Supply-chain hygiene via Scorecard
 
 **Principle:** Every public repo runs [OpenSSF Scorecard](https://scorecard.dev/) on a weekly schedule, on branch protection rule changes, and on every push to `main`. The score is visible as a badge in the README.
 
@@ -56,7 +96,7 @@ Private repos have `continue-on-error: true` on Scorecard because many of its ch
 
 ---
 
-## 5. Branch protection is non-negotiable
+## 6. Branch protection is non-negotiable
 
 **Principle:** `main` and `develop` both require PRs. `main` additionally requires the release PR path. Neither allows force pushes or deletions. Tag ruleset on `v*` blocks creation/deletion/non-ff outside the release flow.
 
@@ -66,7 +106,7 @@ The tag protection specifically matters because release tags are the artifact. A
 
 ---
 
-## 6. CODEOWNERS enforces "someone reviewed this"
+## 7. CODEOWNERS enforces "someone reviewed this"
 
 **Principle:** Every protected repo has a `.github/CODEOWNERS` that makes me (or a bot account for AI-authored work) an automatic reviewer on all PRs.
 
@@ -76,7 +116,7 @@ This gets more important with AI-authored PRs (see [Claude Bot Account design no
 
 ---
 
-## 7. Stale issues are a security concern
+## 8. Stale issues are a security concern
 
 **Principle:** Issues and PRs without activity for 30 days get marked stale; another 7 days closes them. Issues labeled `pinned` or `security` are exempt.
 
