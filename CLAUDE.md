@@ -6,7 +6,11 @@ This file is read by Claude Code at the start of every session in this repo.
 
 ## About This Repo
 
-<!-- TODO: describe what this project does -->
+This is my personal engineering handbook — a documentation-primarily repo that captures the philosophies, workflows, and tooling that shape how I build software.
+
+- Content lives in `docs/` as markdown files, with `README.md` acting as the landing page / table of contents.
+- There is no application code to lint, test, or build. Treat this repo as a writing project: prioritize clarity, consistency of voice, and structure.
+- Prefer editing existing chapters over creating new ones. Only add a new doc under `docs/` when the topic is substantial enough to stand alone.
 
 ---
 
