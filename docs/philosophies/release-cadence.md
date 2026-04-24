@@ -8,6 +8,8 @@ This document is the *why*. For the concrete workflow steps, see [Branching & Re
 
 ## The core idea
 
+![Release lifecycle: dependency PRs accumulate on develop through the month; on the 1st an automated patch-release PR opens; once merged to develop, a CLI --no-ff merge promotes develop to main; main is tagged and the release pipeline fires](../images/release-cadence.png)
+
 Every repo I own treats a release as a first-class event, not a side effect of merging. Patch releases happen on a predictable monthly cadence for dependency updates; feature and breaking releases happen when the work is ready. The version number is derived from what the commits say happened, not from what I remember to type into a release notes field.
 
 A few rules hold across all of it:

@@ -8,6 +8,8 @@ This document is the *why*. For the concrete steps, commands, and tooling that i
 
 ## The core idea
 
+![Branching Strategy: feature branches land on develop, develop is CLI-merged into main at release time, and main is tagged with semver](../images/branching-strategy.png)
+
 Every repo I own follows the same two-branch model — `main` is the latest release, `develop` is the integration branch, and every change lands via pull request. Releases are an explicit, ceremonial promotion of `develop` into `main`, followed by a semver tag that triggers the release pipeline.
 
 This isn't the simplest possible setup. Trunk-based development with a single `main` branch is simpler. I run the two-branch model on purpose. The rest of this document is why.

@@ -6,6 +6,8 @@
 
 ---
 
+![Claude Bot Account flow: Alan describes intent to Claude Code; Claude Code writes the code and commits as amcheste.ai.agent; GitHub opens the PR and CODEOWNERS auto-requests amcheste as reviewer — preserving a full audit trail](../images/claude-bot-account.png)
+
 ## Problem
 
 Claude Code writes the lion's share of the code in my projects. Alan reviews and approves it. But because Claude pushes using Alan's GitHub credentials, every PR shows Alan as both the **author** and the only possible **reviewer** — and GitHub blocks self-review. Beyond the mechanical issue of not being able to request review in Graphite, Linear, or GitHub, this collapses three distinct properties of a healthy code-review workflow:
