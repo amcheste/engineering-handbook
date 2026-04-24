@@ -129,6 +129,8 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
 
 ## Components
 
+**Visual identity:** [amcheste-ai-agent/epsilon-branding](https://github.com/amcheste-ai-agent/epsilon-branding)
+
 ### 1. Bot GitHub Account
 
 | Field | Value |
