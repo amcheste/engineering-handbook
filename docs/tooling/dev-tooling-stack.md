@@ -79,7 +79,7 @@ Claude Code writes the lion's share of my production code. It is the CLI-native 
 - Debugging with full repo context — Claude Code can read the code, run it, interpret failures, and iterate
 - Handles the branching and release ceremony per the [Branching & Releases workflow](../workflows/branching-and-releases.md)
 
-Claude Code also enforces the authorship boundary — commits are authored as `amcheste.ai.agent` (see the [Claude Bot Account design note](../design/claude-bot-account.md)) so that the audit trail distinguishes AI-written code from human-written code. My own commits from the terminal or Cursor remain under `amcheste`.
+Claude Code also enforces the authorship boundary — commits are authored as `amcheste-ai-agent` (see the [Claude Bot Account design note](../design/claude-bot-account.md)) so that the audit trail distinguishes AI-written code from human-written code. My own commits from the terminal or Cursor remain under `amcheste`.
 
 Usage pattern:
 - give Claude Code a task (often decomposed from Claude Desktop planning)
@@ -134,7 +134,7 @@ When I'm coding in Cursor, commits go under my personal identity (`amcheste`) �
    - implement changes
    - refactor surrounding code as needed
    - write / update tests
-   - open the PR as `amcheste.ai.agent`
+   - open the PR as `amcheste-ai-agent`
 4. (Optional) Use Cursor for:
    - surgical manual edits
    - reading the resulting diff with IDE tooling
