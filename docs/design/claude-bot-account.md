@@ -6,7 +6,7 @@
 
 ---
 
-![Claude Bot Account flow: Alan describes intent to Claude Code; Claude Code writes the code and commits as amcheste.ai.agent; GitHub opens the PR and CODEOWNERS auto-requests amcheste as reviewer — preserving a full audit trail](../images/claude-bot-account.png)
+![Claude Bot Account flow: Alan describes intent to Claude Code; Claude Code writes the code and commits as amcheste-ai-agent; GitHub opens the PR and CODEOWNERS auto-requests amcheste as reviewer — preserving a full audit trail](../images/claude-bot-account.png)
 
 ## Problem
 
@@ -22,7 +22,7 @@ This design fixes all three by splitting authorship from review at the account l
 
 Separate authorship from review so that:
 
-1. PRs are **authored** by a dedicated bot account (`amcheste.ai.agent`)
+1. PRs are **authored** by a dedicated bot account (`amcheste-ai-agent`)
 2. Alan is **auto-requested as reviewer** via CODEOWNERS
 3. The audit trail is clean: AI wrote it, human reviewed it, and both facts are visible
 4. The day-to-day workflow doesn't change (Alan talks to Claude, Claude ships code)
@@ -41,8 +41,8 @@ The core question: **who owns the commit and the PR?** This depends on who is dr
 |---|---|
 | **Driver** | Claude Code |
 | **Alan's role** | Guidance, direction, review |
-| **Commit author** | `amcheste.ai.agent` |
-| **PR author** | `amcheste.ai.agent` |
+| **Commit author** | `amcheste-ai-agent` |
+| **PR author** | `amcheste-ai-agent` |
 | **Reviewer** | `amcheste` (auto-requested via CODEOWNERS) |
 
 #### Scenario 2: Claude-driven with human steering in Cursor
@@ -53,8 +53,8 @@ The core question: **who owns the commit and the PR?** This depends on who is dr
 |---|---|
 | **Driver** | Claude Code |
 | **Alan's role** | Guidance via review and direct edits |
-| **Commit author** | `amcheste.ai.agent` (Claude does the commit) |
-| **PR author** | `amcheste.ai.agent` |
+| **Commit author** | `amcheste-ai-agent` (Claude does the commit) |
+| **PR author** | `amcheste-ai-agent` |
 | **Reviewer** | `amcheste` |
 
 > **Key principle:** Even when Alan touches the code, if Claude is the one orchestrating the work and doing the `git commit`, it's a Claude-owned deliverable. Alan's edits are steering, not authorship.
@@ -67,8 +67,8 @@ The core question: **who owns the commit and the PR?** This depends on who is dr
 |---|---|
 | **Driver** | Claude Code (autonomous) |
 | **Alan's role** | Review only |
-| **Commit author** | `amcheste.ai.agent` |
-| **PR author** | `amcheste.ai.agent` |
+| **Commit author** | `amcheste-ai-agent` |
+| **PR author** | `amcheste-ai-agent` |
 | **Reviewer** | `amcheste` |
 
 #### Scenario 4: Human-driven coding
@@ -87,7 +87,7 @@ The core question: **who owns the commit and the PR?** This depends on who is dr
 
 > **Whoever runs `git commit` determines the author.**
 >
-> - Claude Code always uses `--author="amcheste.ai.agent <...>"` (per CLAUDE.md)
+> - Claude Code always uses `--author="amcheste-ai-agent <...>"` (per CLAUDE.md)
 > - Alan's terminal and Cursor use his default git config (`amcheste`)
 >
 > No manual switching required. The tools enforce the boundary.
@@ -104,9 +104,9 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
 
 | Scenario | Who drives | Who commits | Commit author | PR author | Reviewer |
 |---|---|---|---|---|---|
-| 1. Claude session | Claude | Claude | `amcheste.ai.agent` | `amcheste.ai.agent` | `amcheste` |
-| 2. Claude + Cursor steering | Claude | Claude | `amcheste.ai.agent` | `amcheste.ai.agent` | `amcheste` |
-| 3. Linear ticket (automated) | Claude | Claude | `amcheste.ai.agent` | `amcheste.ai.agent` | `amcheste` |
+| 1. Claude session | Claude | Claude | `amcheste-ai-agent` | `amcheste-ai-agent` | `amcheste` |
+| 2. Claude + Cursor steering | Claude | Claude | `amcheste-ai-agent` | `amcheste-ai-agent` | `amcheste` |
+| 3. Linear ticket (automated) | Claude | Claude | `amcheste-ai-agent` | `amcheste-ai-agent` | `amcheste` |
 | 4. Alan coding | Alan | Alan | `amcheste` | `amcheste` | --- |
 
 ## Proposed Architecture
@@ -115,7 +115,7 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
  Alan (human)                    Claude Code                     GitHub
  ───────────                    ───────────                     ──────
  "add event flags"  ──────►  writes code locally
-                              commits as amcheste.ai.agent ──►  pushes branch
+                              commits as amcheste-ai-agent ──►  pushes branch
                               gh pr create (bot auth)      ──►  opens PR
                                                                 │
                               CODEOWNERS: * @amcheste     ──►  auto-requests
@@ -133,9 +133,9 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
 
 | Field | Value |
 |---|---|
-| Username | `amcheste.ai.agent` |
+| Username | `amcheste-ai-agent` |
 | Login email | `amcheste.ai.agent@gmail.com` |
-| Commit email | GitHub's noreply form for this account (visible under *Settings → Emails → "Keep my email addresses private"*) — typically `<ID>+amcheste.ai.agent@users.noreply.github.com` for modern accounts |
+| Commit email | GitHub's noreply form for this account (visible under *Settings → Emails → "Keep my email addresses private"*) — typically `<ID>+amcheste-ai-agent@users.noreply.github.com` for modern accounts |
 | Role | Installed via GitHub App on target repos (see §2) |
 | Avatar | Something that makes it obvious it's a bot (e.g. a generated avatar, a distinct colored square) |
 | Bio | "Bot account for AI-authored PRs. Code written by Claude, reviewed by @amcheste." |
@@ -156,7 +156,7 @@ A GitHub App is the right auth surface for this — not a personal access token.
 - **Showcases engineering rigor.** This is the "right way" pattern; worth the one-time setup cost.
 
 **Setup steps:**
-1. Log into the `amcheste.ai.agent` account.
+1. Log into the `amcheste-ai-agent` account.
 2. **Settings → Developer settings → GitHub Apps → New GitHub App**.
 3. App name: `amcheste-ai-agent` (or similar — must be globally unique on GitHub).
 4. Homepage URL: point at the engineering-handbook repo.
@@ -191,7 +191,7 @@ Then a small helper (or `gh api` extension) converts App ID + private key → in
 Claude Code overrides the author at commit time using git flags, without touching the repo's git config at all:
 
 ```bash
-git commit --author="amcheste.ai.agent <amcheste.ai.agent@users.noreply.github.com>" -m "..."
+git commit --author="amcheste-ai-agent <amcheste-ai-agent@users.noreply.github.com>" -m "..."
 ```
 
 Alan's global git config (`amcheste` / `amcheste@gmail.com`) stays untouched. When Alan codes in Cursor or the terminal, commits are his. When Claude Code commits, it uses the `--author` flag per CLAUDE.md.
@@ -203,12 +203,12 @@ CLAUDE.md instruction:
 ```markdown
 # In ~/.claude/CLAUDE.md
 - When committing, always use:
-  git commit --author="amcheste.ai.agent <amcheste.ai.agent@users.noreply.github.com>"
+  git commit --author="amcheste-ai-agent <amcheste-ai-agent@users.noreply.github.com>"
 ```
 
 This gives clean separation:
 - **Alan commits in Cursor/terminal** → `amcheste` (his normal identity)
-- **Claude Code commits** → `amcheste.ai.agent` (bot identity)
+- **Claude Code commits** → `amcheste-ai-agent` (bot identity)
 - **Both** → same repo, same branch, no config switching
 
 ### 4. `gh` CLI Auth for Bot Sessions
@@ -234,7 +234,7 @@ Alan's default `gh auth` stays his. The App token lives in the session's environ
 * @amcheste
 ```
 
-Since the PR author is now `amcheste.ai.agent` (not `amcheste`), GitHub will **auto-request `amcheste` as reviewer**. This is the key unlock — the review-request mechanism works normally, no workarounds required.
+Since the PR author is now `amcheste-ai-agent` (not `amcheste`), GitHub will **auto-request `amcheste` as reviewer**. This is the key unlock — the review-request mechanism works normally, no workarounds required.
 
 ### 6. Branch Protection
 
@@ -272,7 +272,7 @@ If future workflows need to assign somebody (e.g. "this PR blocks a release; ass
 **For Alan:** Nothing. Talk to Claude the same way. Review PRs in Graphite. Code in Cursor whenever you want — your commits are yours, Claude's commits are the bot's, even in the same repo on the same branch.
 
 **For Claude Code:** Two differences baked into CLAUDE.md:
-1. Commits use `--author="amcheste.ai.agent <...>"` (Alan's git config unchanged)
+1. Commits use `--author="amcheste-ai-agent <...>"` (Alan's git config unchanged)
 2. PR creation uses an installation token from the GitHub App (minted per session)
 
 **For Alan in Cursor/terminal:** Nothing changes. Default git identity stays `amcheste`. Cursor's AI agent assistance still commits as Alan (which is correct — Alan is directing Cursor, not delegating wholesale).
@@ -285,7 +285,7 @@ Every PR has three clear signals:
 
 | Signal | What it shows |
 |---|---|
-| PR author: `amcheste.ai.agent` | Code was AI-generated |
+| PR author: `amcheste-ai-agent` | Code was AI-generated |
 | `Co-Authored-By` in commits | Which Claude model wrote it |
 | Reviewer/approver: `amcheste` | Human reviewed and approved |
 
@@ -295,7 +295,7 @@ These three together satisfy the auditability/traceability/accountability proper
 
 | Step | Effort | Dependency |
 |---|---|---|
-| 1. ~~Create `amcheste.ai.agent` GitHub account~~ (done) | — | Separate email (`amcheste.ai.agent@gmail.com`) |
+| 1. ~~Create `amcheste-ai-agent` GitHub account~~ (done) | — | Separate email (`amcheste.ai.agent@gmail.com`) |
 | 2. Set bot bio + avatar, record noreply commit email | 5 min | Step 1 |
 | 3. Create GitHub App, generate private key, install on repos | 15 min | Step 1 |
 | 4. Store private key in Apple Passwords (secure note attachment) | 5 min | Step 3 |
@@ -327,7 +327,7 @@ Apply this pattern to **all existing repos and all new repos**. It is standard o
 
 All previously-open questions are now resolved:
 
-1. ~~**Account naming:**~~ **Resolved** — `amcheste.ai.agent`, with Gmail address `amcheste.ai.agent@gmail.com`.
+1. ~~**Account naming:**~~ **Resolved** — `amcheste-ai-agent`, with Gmail address `amcheste.ai.agent@gmail.com`.
 2. ~~**Scope:**~~ **Resolved** — all existing and future repos. SOP going forward.
 3. ~~**Global vs per-repo git config:**~~ **Resolved** — Option A (`--author` flag) avoids the question entirely. Alan's git config stays his.
 4. ~~**GitHub App vs PAT:**~~ **Resolved** — GitHub App. Worth the extra setup for audit logs, no token rotation, and the right-way signal.
