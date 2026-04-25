@@ -1,43 +1,33 @@
-# Contributing
+# Contributing to the Engineering Handbook
 
-## Branch Model
+This repo **is** the canonical source for branching strategy, commit convention, and release process — so this file is about contributing *to the handbook itself*, not a copy of the rules documented inside it.
 
-| Branch | Purpose |
-|--------|---------|
-| `main` | Latest release — always stable, never directly committed to |
-| `develop` | Integration branch — all PRs target here |
-| `feature/*`, `fix/*` etc. | Short-lived branches off `develop` |
+For the rules, see:
 
-## Commit Convention
+- [Branching Strategy philosophy](docs/philosophies/branching-strategy.md) — the *why*
+- [Branching & Releases workflow](docs/workflows/branching-and-releases.md) — the *how*
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/):
+---
 
-| Prefix | Use |
-|--------|-----|
-| `feat:` | New feature or capability |
-| `fix:` | Bug fix |
-| `docs:` | Documentation only |
-| `chore:` | Maintenance, dependencies, housekeeping |
-| `refactor:` | Code change that neither fixes a bug nor adds a feature |
+## How to contribute
 
-Breaking changes: append `!` after the type — e.g. `feat!: remove legacy API`.
+This is a documentation repo, so the contribution model is the same as any other repo I own, just applied to prose instead of code.
 
-One logical change per PR. Keep commits atomic and the history readable.
+1. Branch from `develop` — `docs/<short-topic>` or `chore/<short-topic>` as appropriate.
+2. Edit existing chapters when possible; only add a new doc under `docs/` when a topic is substantial enough to stand alone.
+3. Commit with [Conventional Commits](https://www.conventionalcommits.org/) — most changes will be `docs:` or `chore:`.
+4. Open a PR targeting `develop`.
+5. CI (`Lint`, `Commit Lint`) must pass before merging.
 
-## Development Workflow
+## What belongs where
 
-1. Branch from `develop`
-2. Make changes, commit with conventional commit messages
-3. Open a PR targeting `develop`
-4. CI must pass before merging
+- **Philosophies** (`docs/philosophies/`) — durable *why* content. Principles that justify decisions. Changes slowly.
+- **Workflows** (`docs/workflows/`) — concrete *how* content. Steps, commands, tooling. Changes as tools evolve.
+- **Tooling** (`docs/tooling/`) — what I use and how it fits together. Start at [`docs/tooling/dev-tooling-stack.md`](docs/tooling/dev-tooling-stack.md).
+- **Design notes** (`docs/design/`) — brainstorm-level proposals. Not polished specs.
 
-## Release Process
+If a note is truly repo-specific (only applies to one project), it belongs in that repo, not here. If it applies to all my repos, it belongs here.
 
-> Only the repo owner publishes releases.
+## Releases
 
-Releases are handled by the `/publish-release` Claude Code skill:
-
-1. Bumps version on `develop`, commits `chore: release v<version>`
-2. Opens a PR: `develop → main`
-3. Owner approves and merges
-4. Tags `main` and pushes — release pipeline fires automatically
+This repo uses the same release ceremony as every other repo I own — documented in the workflow doc linked above.
