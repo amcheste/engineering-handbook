@@ -24,6 +24,7 @@ It is a living document. Expect it to grow and change as my thinking evolves.
 The *why* — principles that explain the decisions behind how I work. These change slowly.
 
 - [Branching Strategy](docs/philosophies/branching-strategy.md) — why every repo runs on `develop` / `main` with CLI-merged releases and conventional commits.
+- [Merge Strategy](docs/philosophies/merge-strategy.md) — why I rebase-merge PRs, never squash, and how that protects bot/human authorship.
 - [Release Cadence & Semver Discipline](docs/philosophies/release-cadence.md) — why releases are a deliberate ceremony, why the monthly patch cycle, and how conventional commits drive the version number.
 - [Security Posture](docs/philosophies/security-posture.md) — why every repo ships with the same SAST, Scorecard, CODEOWNERS, and SLA baseline from day one.
 - [Testing](docs/philosophies/testing.md) — why I write the tests I write, and why I don't write the ones I don't.
