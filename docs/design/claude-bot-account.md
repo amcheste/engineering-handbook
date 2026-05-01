@@ -170,6 +170,7 @@ A GitHub App is the right auth surface for this — not a personal access token.
    | Contents | Read & Write | Push branches |
    | Pull requests | Read & Write | Create/edit PRs |
    | Workflows | Read & Write | Add or modify files under `.github/workflows/`. Without this, GitHub will reject pushes that touch a workflow file with `refusing to allow a GitHub App to create or update workflow ... without 'workflows' permission`. Required for any repo where Claude manages CI/CD config (i.e. all of them, in practice) |
+   | Secrets | Read & Write | Manage Actions secrets via `gh secret set` / `gh secret list` etc. Without this, attempts hit `HTTP 403: Resource not accessible by integration` against `/repos/.../actions/secrets/public-key`. Required for any setup that wires CI integration tokens (e.g. `OVERLEAF_TEST_TOKEN`) without the human pasting secrets into the GitHub web UI |
    | Metadata | Read (mandatory) | Required by GitHub |
 
    > After adding or changing permissions on the App, the existing installation also has to **accept** the new scope: *Settings → Installations → Configure → Review permissions*. The App can declare new permissions all it wants; until the installation acknowledges them, the runtime token still has the old scope.
