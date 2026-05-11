@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Philosophies: Branching Strategy, Release Cadence & Semver Discipline, Security Posture, Testing.
 - Workflows: Branching & Releases, CI Automation Surface.
 - Tooling: Development Tooling Stack (Claude Desktop for planning, Claude Code as primary execution, Cursor as supplemental).
-- Design notes: Claude Bot Account for AI-Authored PRs (design approved — Epsilon agent now active).
+- Design notes: Claude Bot Account for AI-Authored PRs (design approved. Epsilon agent now active).
 - Rendered overview diagrams under `docs/images/` for branching strategy, release cadence, and Claude Bot Account.
 - Release infrastructure: `VERSION`, `scripts/bump-version.sh`, `CHANGELOG.md`.
 - `CONTRIBUTING.md` rewritten for the handbook as canonical source for branching, commits, and releases across all repos.

@@ -1,6 +1,6 @@
 # Philosophy: Release Cadence & Semver Discipline
 
-**Why releases are a deliberate, automated-but-not-automatic ceremony — and how conventional commits drive the version number.**
+**Why releases are a deliberate, automated-but-not-automatic ceremony. And how conventional commits drive the version number.**
 
 This document is the *why*. For the concrete workflow steps, see [Branching & Releases](../workflows/branching-and-releases.md) and [CI Automation Surface](../workflows/ci-automation.md).
 
@@ -25,7 +25,7 @@ A few rules hold across all of it:
 
 **Principle:** A release happens when I decide to release. It's not triggered by "merged a PR" or "end of sprint."
 
-**Why:** Continuous deployment on every merge is a fine model for services that can afford to ship unfinished state behind feature flags. My repos generally don't have that luxury — they're libraries, CLIs, operators, and personal tooling where a tagged version is an artifact other systems depend on. Making the release explicit means the version number on `main` is a point I can return to, not a moving target.
+**Why:** Continuous deployment on every merge is a fine model for services that can afford to ship unfinished state behind feature flags. My repos generally don't have that luxury. They're libraries, CLIs, operators, and personal tooling where a tagged version is an artifact other systems depend on. Making the release explicit means the version number on `main` is a point I can return to, not a moving target.
 
 The ceremony is the feature. Friction at release time catches "wait, I don't want to ship that yet." Friction at merge time doesn't.
 
@@ -52,7 +52,7 @@ This only works because the PR is auto-opened but manually merged. The automatio
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:` | no bump on their own |
 | Any commit with `!` after the type | major |
 
-**Why:** Deferring the bump decision to release time is where semver discipline breaks down. You look at a list of 40 commits, try to remember which ones were breaking, and pick a number. That's error-prone and subjective. Moving the decision to commit time — when I'm looking at a single change and know exactly what it does — makes it accurate by construction.
+**Why:** Deferring the bump decision to release time is where semver discipline breaks down. You look at a list of 40 commits, try to remember which ones were breaking, and pick a number. That's error-prone and subjective. Moving the decision to commit time. When I'm looking at a single change and know exactly what it does. Makes it accurate by construction.
 
 This is enforced mechanically: the validate workflow's Commit Lint job rejects PRs with non-conventional messages. The monthly release workflow reads the commits and suggests the correct bump. A human still confirms, but they're confirming a calculation, not making one.
 
@@ -60,7 +60,7 @@ This is enforced mechanically: the validate workflow's Commit Lint job rejects P
 
 ## 4. The `VERSION` file is the single source of truth
 
-**Principle:** Every repo has a one-line `VERSION` file at the root. It holds the current (released) version. Nothing else — no `package.json` sprinkling, no `setup.py` duplication, no hardcoded version strings in source.
+**Principle:** Every repo has a one-line `VERSION` file at the root. It holds the current (released) version. Nothing else. No `package.json` sprinkling, no `setup.py` duplication, no hardcoded version strings in source.
 
 **Why:** Multiple sources of version truth is how you end up with `v1.3.0` in one place and `1.2.9` in another, with nobody sure which is "real." A single `VERSION` file is trivial to read from any language, trivial for CI to validate, and forces every part of the system that cares about the version to look in one place.
 
@@ -74,7 +74,7 @@ The `bump-version.sh` script (in repo-template) is the only thing that writes to
 
 **Why:** Coupling the tag and the release means they can't drift. You can't accidentally tag without publishing. You can't accidentally publish without tagging. The tag is the truth; the pipeline is a consequence.
 
-This also means tags are protected (ruleset on `refs/tags/v*` — no creation, deletion, or non-fast-forward moves outside the release flow). Accidentally deleting a tag after publish would create a version number that corresponds to nothing, which is worse than nothing at all.
+This also means tags are protected (ruleset on `refs/tags/v*`. No creation, deletion, or non-fast-forward moves outside the release flow). Accidentally deleting a tag after publish would create a version number that corresponds to nothing, which is worse than nothing at all.
 
 ---
 
@@ -82,7 +82,7 @@ This also means tags are protected (ruleset on `refs/tags/v*` — no creation, d
 
 **Principle:** Versions containing a `-` (e.g. `1.0.0-beta.1`, `2.0.0-rc.3`) are published as pre-releases. They do not become `latest`. Users have to explicitly opt in.
 
-**Why:** Some changes need real-world exposure before I'm willing to call them stable — new features that might behave differently than the tests suggest, breaking changes where I want to give consumers a chance to adapt. Pre-releases let me get artifacts into the world without committing to stability.
+**Why:** Some changes need real-world exposure before I'm willing to call them stable. New features that might behave differently than the tests suggest, breaking changes where I want to give consumers a chance to adapt. Pre-releases let me get artifacts into the world without committing to stability.
 
 The release pipeline handles this automatically based on the tag format. No separate workflow, no manual steps, no risk of accidentally promoting a beta to latest.
 
@@ -118,7 +118,7 @@ The value of this discipline is that consumers (including future-me) know what p
 
 **Why:** Writing release notes from scratch at release time means either (a) scrolling through commits trying to remember what shipped, or (b) skipping it, which makes the GitHub release page useless. Accumulating them as work happens means the notes are written by the person closest to each change, at the moment they made it.
 
-This pairs with conventional commits and the PR labeler — the label determines the category in the release notes, the commit type determines the bump, and the PR title becomes the bullet. All three reuse the same underlying discipline.
+This pairs with conventional commits and the PR labeler. The label determines the category in the release notes, the commit type determines the bump, and the PR title becomes the bullet. All three reuse the same underlying discipline.
 
 ---
 
@@ -132,6 +132,6 @@ This pairs with conventional commits and the PR labeler — the label determines
 
 ## Related
 
-- [Branching Strategy philosophy](branching-strategy.md) — how `develop`/`main` and CLI-merged promotion support this cadence.
-- [Branching & Releases workflow](../workflows/branching-and-releases.md) — concrete steps for cutting a release.
-- [CI Automation Surface](../workflows/ci-automation.md) — the validate/commit-lint/release-drafter/monthly-dep-release workflows that implement this.
+- [Branching Strategy philosophy](branching-strategy.md). How `develop`/`main` and CLI-merged promotion support this cadence.
+- [Branching & Releases workflow](../workflows/branching-and-releases.md). Concrete steps for cutting a release.
+- [CI Automation Surface](../workflows/ci-automation.md). The validate/commit-lint/release-drafter/monthly-dep-release workflows that implement this.
