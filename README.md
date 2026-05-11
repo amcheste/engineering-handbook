@@ -5,8 +5,8 @@
 **How I build software — and the philosophies behind it.**
 
 [![Validate](https://github.com/amcheste/engineering-handbook/actions/workflows/validate.yml/badge.svg)](https://github.com/amcheste/engineering-handbook/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/github/v/tag/amcheste/engineering-handbook?label=version&sort=semver)](https://github.com/amcheste/engineering-handbook/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/github/v/tag/amcheste/engineering-handbook?label=version&sort=semver&color=0B0B0C)](https://github.com/amcheste/engineering-handbook/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1F4D3A.svg)](LICENSE)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/amcheste/engineering-handbook/badge)](https://scorecard.dev/viewer/?uri=github.com/amcheste/engineering-handbook)
 
 </div>
