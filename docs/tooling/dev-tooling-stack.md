@@ -55,12 +55,12 @@ All code ultimately lives in GitHub:
 
 ### Claude Desktop
 
-Claude Desktop is where I figure out *what* to build and *why*. It is not a primary code-writing environment — that role belongs to Claude Code (see 2.3). Claude Desktop covers four distinct modes of use:
+Claude Desktop is where I figure out *what* to build and *why*. It is not a primary code-writing environment. That role belongs to Claude Code (see 2.3). Claude Desktop covers four distinct modes of use:
 
-- **Chat / conversation** — system design and architecture thinking, breaking down complex tasks, reviewing tradeoffs, exploring edge cases. The classic "thinking partner" use case.
-- **Cowork mode** — Claude takes actions on my Mac with my confirmation: running commands, opening files, inspecting state. Useful for debugging workflows that span multiple apps or for guided exploration of an unfamiliar codebase without switching to a terminal.
-- **Artifacts and file sharing** — uploading designs, screenshots, logs, API responses, or long documents so Claude can reason about them directly rather than from a summary. Important for reviewing incident evidence, long error traces, or design documents that are hard to paste as text.
-- **Session continuity per project** — persistent conversations scoped to a project, which means I can return to a design discussion days later without re-establishing context. This is the biggest reason Claude Desktop is where planning lives — the thread survives.
+- **Chat / conversation**. System design and architecture thinking, breaking down complex tasks, reviewing tradeoffs, exploring edge cases. The classic "thinking partner" use case.
+- **Cowork mode**. Claude takes actions on my Mac with my confirmation: running commands, opening files, inspecting state. Useful for debugging workflows that span multiple apps or for guided exploration of an unfamiliar codebase without switching to a terminal.
+- **Artifacts and file sharing**. Uploading designs, screenshots, logs, API responses, or long documents so Claude can reason about them directly rather than from a summary. Important for reviewing incident evidence, long error traces, or design documents that are hard to paste as text.
+- **Session continuity per project**. Persistent conversations scoped to a project, which means I can return to a design discussion days later without re-establishing context. This is the biggest reason Claude Desktop is where planning lives. The thread survives.
 
 Output of this layer is usually a written plan, a decision, or a set of implementation tasks that then get handed to Claude Code for execution.
 
@@ -76,10 +76,10 @@ Claude Code writes the lion's share of my production code. It is the CLI-native 
 - Refactoring across an entire codebase with reasoning about call sites and side effects
 - Writing tests for new and existing code
 - Creating and iterating on pull requests (branching, commits, PR body, review response)
-- Debugging with full repo context — Claude Code can read the code, run it, interpret failures, and iterate
+- Debugging with full repo context. Claude Code can read the code, run it, interpret failures, and iterate
 - Handles the branching and release ceremony per the [Branching & Releases workflow](../workflows/branching-and-releases.md)
 
-Claude Code also enforces the authorship boundary — commits are authored as `amcheste-ai-agent` (see the [Claude Bot Account design note](../design/claude-bot-account.md)) so that the audit trail distinguishes AI-written code from human-written code. My own commits from the terminal or Cursor remain under `amcheste`.
+Claude Code also enforces the authorship boundary. Commits are authored as `amcheste-ai-agent` (see the [Claude Bot Account design note](../design/claude-bot-account.md)) so that the audit trail distinguishes AI-written code from human-written code. My own commits from the terminal or Cursor remain under `amcheste`.
 
 Usage pattern:
 - give Claude Code a task (often decomposed from Claude Desktop planning)
@@ -88,14 +88,14 @@ Usage pattern:
 
 ### Cursor (supplemental)
 
-Cursor is my AI-native IDE, used for **targeted manual work** — not as the primary code-writing environment.
+Cursor is my AI-native IDE, used for **targeted manual work**. Not as the primary code-writing environment.
 
 - Surgical keystroke-by-keystroke edits where I want to drive directly
 - Reading and understanding code with AI assistance, without handing off a task
 - Reviewing Claude Code's diffs with the IDE's inline tooling
 - Quick local changes that aren't worth a full Claude Code session
 
-When I'm coding in Cursor, commits go under my personal identity (`amcheste`) — Cursor does not author as the bot. This matches the ownership model in the Claude Bot Account design: whoever runs `git commit` determines the author.
+When I'm coding in Cursor, commits go under my personal identity (`amcheste`). Cursor does not author as the bot. This matches the ownership model in the Claude Bot Account design: whoever runs `git commit` determines the author.
 
 ---
 
@@ -230,4 +230,4 @@ This development stack is designed to function as a semi-autonomous software eng
 - Execution is handled primarily by Claude Code, with Cursor as a supplemental tool for targeted manual work
 - GitHub acts as the system of record
 
-The goal is to progressively shift from manual coding to AI-assisted and eventually agent-driven software development — with a clear audit trail separating what the AI authored from what the human authored.
+The goal is to progressively shift from manual coding to AI-assisted and eventually agent-driven software development. With a clear audit trail separating what the AI authored from what the human authored.

@@ -27,23 +27,23 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 ---
 
-## `validate.yml` — the gate every PR goes through
+## `validate.yml`. The gate every PR goes through
 
 **Fires on:** every push and PR targeting `main` or `develop`.
 
 **Does:**
-1. **Lint** — language-specific linter (`ruff`, `golangci-lint`, `shellcheck`, whatever fits the repo). This is the check that gets required in branch protection.
-2. **Commit Lint** — enforces [Conventional Commits](https://www.conventionalcommits.org/). Rejects PRs where any commit message doesn't match the `<type>[(scope)]: <description>` grammar with a recognized type (`feat` / `fix` / `docs` / `chore` / `refactor` / `test` / `ci`).
-3. **Semver suggestion** — reads the commits on the PR and posts a suggested bump (`major` / `minor` / `patch` / `none`) in the PR output. `feat:` → minor, `fix:` → patch, any `!` → major.
-4. **`detect-changes` short-circuit** — if a PR only touches `.github/` files, skip the expensive lint/test jobs.
+1. **Lint**. Language-specific linter (`ruff`, `golangci-lint`, `shellcheck`, whatever fits the repo). This is the check that gets required in branch protection.
+2. **Commit Lint**. Enforces [Conventional Commits](https://www.conventionalcommits.org/). Rejects PRs where any commit message doesn't match the `<type>[(scope)]: <description>` grammar with a recognized type (`feat` / `fix` / `docs` / `chore` / `refactor` / `test` / `ci`).
+3. **Semver suggestion**. Reads the commits on the PR and posts a suggested bump (`major` / `minor` / `patch` / `none`) in the PR output. `feat:` → minor, `fix:` → patch, any `!` → major.
+4. **`detect-changes` short-circuit**. If a PR only touches `.github/` files, skip the expensive lint/test jobs.
 
 **Why it matters:** This is the only workflow whose success is required by branch protection. Everything else reports; this one gates.
 
-**Customizing per repo:** the lint step is the part you'll replace — `validate.yml` ships with a TODO placeholder. After editing, rerun `/setup-repo` to sync the required-check names in branch protection.
+**Customizing per repo:** the lint step is the part you'll replace. `validate.yml` ships with a TODO placeholder. After editing, rerun `/setup-repo` to sync the required-check names in branch protection.
 
 ---
 
-## `labeler.yml` — automatic label assignment
+## `labeler.yml`. Automatic label assignment
 
 **Fires on:** PR open, reopen, and synchronize.
 
@@ -55,7 +55,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 ---
 
-## `release-drafter.yml` — release notes that write themselves
+## `release-drafter.yml`. Release notes that write themselves
 
 **Fires on:** push to `develop` or `main`, and every PR event.
 
@@ -63,11 +63,11 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 **Why it matters:** Release notes get written the moment each change lands, not at the chaos of release time. Paired with `labeler.yml`, each PR is auto-categorized without me thinking about it.
 
-**Config:** `.github/release-drafter.yml` — defines the categories (Features, Bug Fixes, Maintenance, Security, etc.) and which labels map to each.
+**Config:** `.github/release-drafter.yml`. Defines the categories (Features, Bug Fixes, Maintenance, Security, etc.) and which labels map to each.
 
 ---
 
-## `monthly-dependency-release.yml` — the patch release cycle
+## `monthly-dependency-release.yml`. The patch release cycle
 
 **Fires on:** cron (1st of each month, early UTC) + `workflow_dispatch` for manual trigger.
 
@@ -75,31 +75,31 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 1. Checks `git log` on `develop` since the last release tag for commits matching `chore(deps):` or `chore: bump`.
 2. If none, exits silently (no release this cycle).
 3. If any, runs `scripts/bump-version.sh patch` to increment the VERSION file.
-4. Updates `CHANGELOG.md` — moves `[Unreleased]` entries under a new `[<version>] - YYYY-MM-DD` heading.
+4. Updates `CHANGELOG.md`. Moves `[Unreleased]` entries under a new `[<version>] - YYYY-MM-DD` heading.
 5. Commits on a branch (`chore/release-v<version>`) and opens a PR to `develop` titled `chore: release v<version>`.
 6. Does **not** auto-merge. I review and merge manually.
 
-**Why it matters:** Monthly patch releases eat dependency drift without manual effort. The "open the PR, don't merge" choice is deliberate — see [Release Cadence philosophy §2](../philosophies/release-cadence.md#2-monthly-patch-cycle-for-dependency-drift).
+**Why it matters:** Monthly patch releases eat dependency drift without manual effort. The "open the PR, don't merge" choice is deliberate. See [Release Cadence philosophy §2](../philosophies/release-cadence.md#2-monthly-patch-cycle-for-dependency-drift).
 
-**What runs after:** once the monthly PR merges to `develop`, follow the standard [Branching & Releases workflow](branching-and-releases.md#publishing-a-release) — CLI merge `develop → main`, tag, push.
+**What runs after:** once the monthly PR merges to `develop`, follow the standard [Branching & Releases workflow](branching-and-releases.md#publishing-a-release). CLI merge `develop → main`, tag, push.
 
 ---
 
-## `release.yml` — publishing a tagged version
+## `release.yml`. Publishing a tagged version
 
 **Fires on:** pushing a `v*` tag to `main`.
 
 **Does (structure varies by repo; this is the pattern):**
-1. **Validate** — re-runs the full validate workflow as a sanity check.
-2. **Acceptance gate** (if applicable) — runs the heavy end-to-end test suite.
-3. **Publish** — builds artifacts (containers, binaries, packages) and publishes to the appropriate registry (GHCR, npm, PyPI, a GitHub Release, etc.).
-4. **Mark release** — if the tag contains `-` (e.g. `-beta.1`), marks as pre-release. Otherwise marks as latest.
+1. **Validate**. Re-runs the full validate workflow as a sanity check.
+2. **Acceptance gate** (if applicable). Runs the heavy end-to-end test suite.
+3. **Publish**. Builds artifacts (containers, binaries, packages) and publishes to the appropriate registry (GHCR, npm, PyPI, a GitHub Release, etc.).
+4. **Mark release**. If the tag contains `-` (e.g. `-beta.1`), marks as pre-release. Otherwise marks as latest.
 
 **Why it matters:** The tag *is* the release event. Coupling "tag pushed" → "release published" means they can't drift. See [Release Cadence philosophy §5](../philosophies/release-cadence.md#5-the-tag-is-the-release-event).
 
 ---
 
-## `sast.yml` — Semgrep static analysis
+## `sast.yml`. Semgrep static analysis
 
 **Fires on:** weekly cron (Monday ~02:00 UTC) + push/PR to `main` or `develop`.
 
@@ -113,7 +113,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 
 ---
 
-## `gitleaks.yml` — secret-scan CI backstop
+## `gitleaks.yml`. Secret-scan CI backstop
 
 **Fires on:** push/PR to `main` or `develop`.
 
@@ -128,19 +128,19 @@ See [Security Posture §4](../philosophies/security-posture.md#4-prevent-secrets
 
 ---
 
-## `scorecard.yml` — OpenSSF Scorecard
+## `scorecard.yml`. OpenSSF Scorecard
 
 **Fires on:** weekly cron (Monday ~01:30 UTC) + push to `main` + branch-protection-rule changes.
 
 **Does:** Runs the OpenSSF Scorecard action against the repo and uploads results. Badge in README reflects current score.
 
-**Config:** `continue-on-error: true` on private repos (Scorecard doesn't work well on private) — no noise for repos it can't give a useful answer on.
+**Config:** `continue-on-error: true` on private repos (Scorecard doesn't work well on private). No noise for repos it can't give a useful answer on.
 
 **Why it matters:** Third-party audit of branch protection, token scoping, dependency pinning, etc. Catches drift. See [Security Posture philosophy §5](../philosophies/security-posture.md#5-supply-chain-hygiene-via-scorecard).
 
 ---
 
-## `stale.yml` — issue/PR hygiene
+## `stale.yml`. Issue/PR hygiene
 
 **Fires on:** daily cron (09:00 UTC).
 
@@ -153,17 +153,17 @@ See [Security Posture §4](../philosophies/security-posture.md#4-prevent-secrets
 
 ---
 
-## `acceptance.yml` — heavy end-to-end tests (where applicable)
+## `acceptance.yml`. Heavy end-to-end tests (where applicable)
 
 **Fires on:** PRs targeting `main` + `workflow_dispatch`. **Not on `develop` PRs.**
 
-**Does:** Runs the full end-to-end test suite for repos that have one — e.g. `mac-dev-setup` boots a Tart VM and runs `setup.sh` against fresh macOS; `claude-teams-operator` spins up a Kind cluster and runs the controller suite.
+**Does:** Runs the full end-to-end test suite for repos that have one. E.g. `mac-dev-setup` boots a Tart VM and runs `setup.sh` against fresh macOS; `claude-teams-operator` spins up a Kind cluster and runs the controller suite.
 
 **Why gated to `main` PRs:** these tests take 30–45 minutes and consume real infrastructure. Running them on every `develop` PR would be expensive and would train me to ignore failing checks. Gating to the release PR catches release-blocking regressions at the right moment. See [Testing philosophy §3](../philosophies/testing.md#3-acceptance-tests-gate-releases-not-every-pr).
 
 ---
 
-## Dependabot (`.github/dependabot.yml`) — not a workflow, but adjacent
+## Dependabot (`.github/dependabot.yml`). Not a workflow, but adjacent
 
 **Fires on:** weekly schedule (Monday).
 
@@ -177,7 +177,7 @@ See [Security Posture §4](../philosophies/security-posture.md#4-prevent-secrets
 
 ## Applying this to a new repo
 
-1. Run `/create-repo <name>` — creates from the template with all of the above already wired.
+1. Run `/create-repo <name>`. Creates from the template with all of the above already wired.
 2. Customize `validate.yml`'s lint step for the project's language/toolchain.
 3. Customize `labeler.yml` paths for the repo's structure.
 4. Rerun `/setup-repo <owner/repo>` to sync required-check names in branch protection after you've renamed any jobs.
@@ -189,7 +189,7 @@ That's the whole setup. No per-repo reinvention.
 
 ## Related
 
-- [Release Cadence philosophy](../philosophies/release-cadence.md) — why the release automation looks like this.
-- [Security Posture philosophy](../philosophies/security-posture.md) — why the security automation is the baseline.
-- [Testing philosophy](../philosophies/testing.md) — why acceptance tests gate releases and nothing else.
-- [Branching & Releases workflow](branching-and-releases.md) — how releases actually happen, end-to-end.
+- [Release Cadence philosophy](../philosophies/release-cadence.md). Why the release automation looks like this.
+- [Security Posture philosophy](../philosophies/security-posture.md). Why the security automation is the baseline.
+- [Testing philosophy](../philosophies/testing.md). Why acceptance tests gate releases and nothing else.
+- [Branching & Releases workflow](branching-and-releases.md). How releases actually happen, end-to-end.

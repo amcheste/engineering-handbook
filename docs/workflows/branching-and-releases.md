@@ -1,6 +1,6 @@
 # Workflow: Branching & Releases
 
-**The concrete how — branch model, day-to-day flow, and the release process that every repo I own follows.**
+**The concrete how. Branch model, day-to-day flow, and the release process that every repo I own follows.**
 
 This document is the *how*. For the reasoning behind each decision below, see [Branching Strategy](../philosophies/branching-strategy.md).
 
@@ -11,9 +11,18 @@ This document is the *how*. For the reasoning behind each decision below, see [B
 | Branch | Purpose | Protection |
 |---|---|---|
 | `main` | Latest release. Always stable. Never directly committed to. | PR required. CI must pass. No force pushes. No deletions. |
-| `develop` | Default branch. Integration for all in-flight work. | PR required. CI must pass (`Lint`, `Commit Lint`). No force pushes. No deletions. |
+| `develop` | **Integration trunk.** Every in-flight change lands here via PR. This is the branch you create features from and PR against. | PR required. CI must pass (`Lint`, `Commit Lint`). No force pushes. No deletions. |
 | `feature/*`, `fix/*`, `chore/*`, `docs/*`, `refactor/*` | Short-lived branches off `develop`. One logical change each. Deleted after merge. | None — ephemeral. |
 | `v*` tags | Cut from `main` at release time. Trigger the release pipeline. | Ruleset: cannot be created, deleted, or non-ff-moved outside the release flow. |
+
+### GitHub default branch setting
+
+Separate from the integration trunk above, GitHub's "default branch" repo setting is a UX pointer. It controls what visitors see on the repo landing page, what `git clone` checks out without a `--branch` flag, and what the PR-creation UI suggests as the base. It does **not** affect where work integrates — develop is the integration trunk regardless.
+
+- **Before the first release:** the setting points at `develop`. Nothing has shipped, so the integration state is the only meaningful state.
+- **After the first release:** the setting flips to `main`. External visitors see the released product, not work-in-flight. Contributors still branch from and PR to `develop` — that doesn't change.
+
+The flip happens automatically as part of `/publish-release`, so a repo's first release also publishes a coherent landing page. The flip is idempotent — every subsequent release re-asserts `main` as the default, with no effect if it's already there.
 
 ---
 
@@ -29,7 +38,7 @@ This document is the *how*. For the reasoning behind each decision below, see [B
 | `chore:` | Maintenance, dependencies, housekeeping, releases |
 | `refactor:` | Code change that neither fixes a bug nor adds a feature |
 
-Breaking changes: append `!` after the type — e.g. `feat!: remove legacy API`.
+Breaking changes: append `!` after the type. E.g. `feat!: remove legacy API`.
 
 One logical change per PR. Keep commits atomic and the history readable.
 
@@ -39,15 +48,15 @@ One logical change per PR. Keep commits atomic and the history readable.
 
 Two paths:
 
-**New repo from scratch:** run `/create-repo <name>` — creates from the template, clones locally, applies branch protection, default branch, and tag ruleset in one shot.
+**New repo from scratch:** run `/create-repo <name>`. Creates from the template, clones locally, applies branch protection, default branch, and tag ruleset in one shot.
 
-**Existing repo:** run `/setup-repo <owner/repo>` — applies the standard branch model, protection, and tag ruleset to a repo that's already there.
+**Existing repo:** run `/setup-repo <owner/repo>`. Applies the standard branch model, protection, and tag ruleset to a repo that's already there.
 
 Both skills set up:
-- `develop` branch created from `main` if missing, set as default
-- Branch protection on `develop` — require PR, require `Lint` and `Commit Lint` status checks
-- Branch protection on `main` — require PR, require `Lint`
-- Tag ruleset on `v*` — no creation, deletion, or non-fast-forward
+- `develop` branch created from `main` if missing, set as the GitHub default branch (correct for a brand-new repo with no releases yet — see [GitHub default branch setting](#github-default-branch-setting) above; the flip to `main` happens at first release)
+- Branch protection on `develop`. Require PR, require `Lint` and `Commit Lint` status checks
+- Branch protection on `main`. Require PR, require `Lint`
+- Tag ruleset on `v*`. No creation, deletion, or non-fast-forward
 
 After `/setup-repo`, customise `.github/workflows/validate.yml` for the project's language/toolchain, then rerun `/setup-repo` to update required status check names to match the actual job names.
 
@@ -62,7 +71,7 @@ git checkout develop && git pull
 git checkout -b feature/<short-description>
 ```
 
-Use the prefix that matches the change type — `feature/`, `fix/`, `chore/`, `docs/`, `refactor/`.
+Use the prefix that matches the change type. `feature/`, `fix/`, `chore/`, `docs/`, `refactor/`.
 
 ### 2. Make changes, commit atomically
 
@@ -84,7 +93,7 @@ PR body: a short summary of what changed and why, plus a test plan checklist.
 
 ### 4. CI must pass, then merge
 
-Wait for `Lint` and `Commit Lint` (plus any project-specific checks) to pass. Then merge via the GitHub UI — a standard merge is fine for feature branches landing on `develop`.
+Wait for `Lint` and `Commit Lint` (plus any project-specific checks) to pass. Then merge via the GitHub UI. A standard merge is fine for feature branches landing on `develop`.
 
 ### 5. Delete the feature branch
 
@@ -107,7 +116,7 @@ Releases are handled by `/publish-release <version>`, which walks through the fo
 2. On `develop`, up to date with `origin/develop`
 3. `VERSION` file exists in the repo root
 
-### Step 1 — Version bump PR to `develop`
+### Step 1. Version bump PR to `develop`
 
 ```bash
 git checkout -b chore/release-v<version>
@@ -124,7 +133,7 @@ gh pr create \
 
 Wait for CI. Merge via the GitHub UI.
 
-### Step 2 — Promote `develop` → `main` via CLI merge
+### Step 2. Promote `develop` → `main` via CLI merge
 
 **This step does *not* use a GitHub PR.** GitHub's merge button squash-merges by default, which drops commit ancestry and causes merge conflicts on every subsequent release. See [the philosophy doc](../philosophies/branching-strategy.md#5-releases-preserve-commit-ancestry--cli-merge-not-ui-merge) for the full story.
 
@@ -134,9 +143,9 @@ git merge --no-ff origin/develop -m "chore: release v<version>"
 git push origin main
 ```
 
-This preserves the full commit graph — `main` remains a strict ancestor of `develop`, and the next release cycle starts from clean state.
+This preserves the full commit graph. `main` remains a strict ancestor of `develop`, and the next release cycle starts from clean state.
 
-### Step 3 — Tag `main`
+### Step 3. Tag `main`
 
 ```bash
 git tag -a "v<version>" -m "Release v<version>"
@@ -145,7 +154,7 @@ git push origin "v<version>"
 
 The tag push triggers the release pipeline via the `v*` tag filter on the release workflow.
 
-### Step 4 — Confirm pipeline
+### Step 4. Confirm pipeline
 
 ```bash
 gh run list --limit 3
@@ -153,14 +162,27 @@ gh run list --limit 3
 
 Watch the pipeline at `https://github.com/amcheste/<repo>/actions`. Pre-release versions (containing `-`, e.g. `-beta.1`) are published as pre-releases and do not become `latest`. Stable versions become `latest` once all pipeline gates pass.
 
+### Step 5. Ensure `main` is the GitHub default branch
+
+After the tag pushes and the pipeline starts, set `main` as the GitHub default branch if it isn't already. On the first release this flips the repo's landing page from `develop` to `main`. On every subsequent release it's a no-op.
+
+```bash
+current=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name')
+if [ "$current" != "main" ]; then
+  gh repo edit --default-branch main
+fi
+```
+
+This is the moment a repo transitions from "no releases yet, show contributors the integration state" to "has released, show external visitors the shipped product." Contributors continue to branch from and PR to `develop` either way — only what GitHub renders on the landing page changes.
+
 ---
 
 ## Release ceremony at a glance
 
 ```
-feature branch ──► develop ──► develop ──► main ──► v1.2.0 tag ──► pipeline
-   (PR merge)      (PR merge)   (CLI merge --no-ff)  (push tag)     (auto-fires)
-                     ▲             ▲
+feature branch ──► develop ──► develop ──► main ──► v1.2.0 tag ──► pipeline ──► default branch
+   (PR merge)      (PR merge)   (CLI merge --no-ff)  (push tag)     (auto-fires)   (→ main on
+                     ▲             ▲                                                first release)
                      │             │
               version bump       CLI only
               PR merged first    (NOT a GitHub PR)
@@ -170,5 +192,5 @@ feature branch ──► develop ──► develop ──► main ──► v1.2
 
 ## Related
 
-- [Branching Strategy philosophy](../philosophies/branching-strategy.md) — the reasoning behind every decision above.
-- [Development Tooling Stack](../tooling/dev-tooling-stack.md) — how this workflow runs inside the broader AI-assisted development stack.
+- [Branching Strategy philosophy](../philosophies/branching-strategy.md). The reasoning behind every decision above.
+- [Development Tooling Stack](../tooling/dev-tooling-stack.md). How this workflow runs inside the broader AI-assisted development stack.
