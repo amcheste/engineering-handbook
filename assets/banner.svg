@@ -2,7 +2,90 @@
 <svg viewBox="0 0 2400 686" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alan&#39;s Engineering Handbook — banner">
 
   <defs>
-    
+    <style type="text/css"><![CDATA[
+      .rule {
+        stroke: rgba(255, 255, 255, 0.18);
+        stroke-width: 1;
+        fill: none;
+      }
+      .eyebrow {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.65);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+      .mono-tag {
+        font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 20px;
+        font-weight: 400;
+        fill: rgba(255, 255, 255, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .pillar-num {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.82);
+        letter-spacing: 0.08em;
+      }
+      .pillar-label {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.62);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+      .accent-fill {
+        fill: #1F4D3A;
+      }
+      .delta-label {
+        font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+        font-size: 16px;
+        font-style: italic;
+        fill: #1F4D3A;
+        letter-spacing: 0.04em;
+      }
+      .headline {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, "Times New Roman", serif;
+        font-size: 88px;
+        font-weight: 600;
+        fill: rgba(255, 255, 255, 0.95);
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, serif;
+        font-size: 28px;
+        font-style: italic;
+        font-weight: 400;
+        fill: rgba(255, 255, 255, 0.78);
+        letter-spacing: -0.005em;
+      }
+      .stack {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+      .monogram-letter {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        fill: rgba(255, 255, 255, 0.92);
+      }
+      .monogram-epsilon {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, serif;
+        font-size: 26px;
+        font-style: italic;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.92);
+      }
+    ]]></style>
   </defs>
 
   

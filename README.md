@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner-2400.png" alt="Alan's Engineering Handbook · The Philosophies (Branching, Release, Security, Testing) · δ on canonical" width="100%">
+  <img src="assets/banner.svg" alt="Alan's Engineering Handbook · The Philosophies (Branching, Release, Security, Testing) · δ on canonical" width="100%">
 </p>
 
 <div align="center">
