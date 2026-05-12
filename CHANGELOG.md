@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-12
+
+### Added
+- Brand banner under `assets/` (svg + 1200/2400 png) per [`banner-spec.md`](https://github.com/amcheste/alanchester-brand/blob/main/docs/banner-spec.md). Hero shows the four philosophy pillars with a Hunter Green δ marker on Branching. Inline `<style>` block bakes IBM Plex Sans/Mono/Serif metrics into the SVG so it renders standalone on GitHub.
+- "GitHub default branch setting" subsection in [Branching & Releases](docs/workflows/branching-and-releases.md), clarifying that the integration trunk (always `develop`) is distinct from GitHub's "default branch" repo setting (develop pre-release, main post-release).
+- Step 5 in the release ceremony: ensure `main` is the GitHub default branch. Idempotent — only takes effect on the first release.
+- Brand-aligned README badges (license in Hunter Green `#1F4D3A`, version in Ink `#0B0B0C`).
+
+### Changed
+- Release Drafter workflow bumped to v7.3.0 (`c2e2804`). Dropped the `pull_request` trigger — v7 was failing CI on PR events because `GITHUB_REF` is `refs/pull/N/merge`, which the Releases API rejects as `target_commitish`.
+
+### Fixed
+- Banner SVG `.stack` text overflow into the monogram (font-size 18px → 14px, letter-spacing 0.22em → 0.18em).
+- Scorecard workflow imposter `github/codeql-action/upload-sarif` SHA replaced with the real v4 pin. Added `publish_results` condition keyed to `default_branch` instead of hardcoded `refs/heads/main`.
+
 ## [0.1.0] - 2026-04-24
 
 ### Added
