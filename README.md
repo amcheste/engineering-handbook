@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="Alan's Engineering Handbook · The Philosophies (Branching, Release, Security, Testing) · δ on canonical" width="100%">
+</p>
+
 <div align="center">
 
 # Alan's Engineering Handbook

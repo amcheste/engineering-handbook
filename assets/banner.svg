@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 2400 686" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alan&#39;s Engineering Handbook — banner">
+
+  <defs>
+    <style type="text/css"><![CDATA[
+      .rule {
+        stroke: rgba(255, 255, 255, 0.18);
+        stroke-width: 1;
+        fill: none;
+      }
+      .eyebrow {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.65);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+      .mono-tag {
+        font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 20px;
+        font-weight: 400;
+        fill: rgba(255, 255, 255, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .pillar-num {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.82);
+        letter-spacing: 0.08em;
+      }
+      .pillar-label {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.62);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+      .accent-fill {
+        fill: #1F4D3A;
+      }
+      .delta-label {
+        font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+        font-size: 16px;
+        font-style: italic;
+        fill: #1F4D3A;
+        letter-spacing: 0.04em;
+      }
+      .headline {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, "Times New Roman", serif;
+        font-size: 88px;
+        font-weight: 600;
+        fill: rgba(255, 255, 255, 0.95);
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, serif;
+        font-size: 28px;
+        font-style: italic;
+        font-weight: 400;
+        fill: rgba(255, 255, 255, 0.78);
+        letter-spacing: -0.005em;
+      }
+      .stack {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+      .monogram-letter {
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        fill: rgba(255, 255, 255, 0.92);
+      }
+      .monogram-epsilon {
+        font-family: "IBM Plex Serif", ui-serif, Georgia, serif;
+        font-size: 26px;
+        font-style: italic;
+        font-weight: 500;
+        fill: rgba(255, 255, 255, 0.92);
+      }
+    ]]></style>
+  </defs>
+
+  
+  <rect x="0" y="0" width="2400" height="686" fill="#0B0B0C"></rect>
+
+  
+  <g class="rule" stroke-linecap="square">
+    
+    <path d="M 64 96 L 64 64 L 96 64"></path>
+    
+    <path d="M 2336 64 L 2336 64 L 2336 64"></path>
+    <path d="M 2304 64 L 2336 64 L 2336 96"></path>
+    
+    <path d="M 64 590 L 64 622 L 96 622"></path>
+    
+    <path d="M 2304 622 L 2336 622 L 2336 590"></path>
+  </g>
+
+  
+  <line x1="1380" y1="120" x2="1380" y2="566" class="rule"></line>
+
+  
+  <g>
+    
+    <text x="120" y="158" class="eyebrow">The Philosophies</text>
+
+    
+    <line x1="120" y1="178" x2="1320" y2="178" class="rule"></line>
+
+    
+    <text x="1320" y="158" text-anchor="end" class="mono-tag">§ ch. 01–04</text>
+
+    
+    
+
+    
+    <g>
+      <text x="270" y="234" text-anchor="middle" class="pillar-num">01</text>
+      <text x="530" y="234" text-anchor="middle" class="pillar-num">02</text>
+      <text x="790" y="234" text-anchor="middle" class="pillar-num">03</text>
+      <text x="1050" y="234" text-anchor="middle" class="pillar-num">04</text>
+    </g>
+
+    
+    <g class="rule" stroke-linecap="square">
+      <line x1="262" y1="252" x2="278" y2="252"></line>
+      <line x1="522" y1="252" x2="538" y2="252"></line>
+      <line x1="782" y1="252" x2="798" y2="252"></line>
+      <line x1="1042" y1="252" x2="1058" y2="252"></line>
+    </g>
+
+    
+    <g class="rule" stroke-linecap="square">
+      <line x1="270" y1="252" x2="270" y2="478"></line>
+      <line x1="530" y1="252" x2="530" y2="478"></line>
+      <line x1="790" y1="252" x2="790" y2="478"></line>
+      <line x1="1050" y1="252" x2="1050" y2="478"></line>
+    </g>
+
+    
+    <line x1="120" y1="478" x2="1320" y2="478" class="rule"></line>
+
+    
+    <g>
+      
+      <rect x="258" y="372" width="24" height="4" class="accent-fill"></rect>
+      
+      <circle cx="282" cy="374" r="3.5" class="accent-fill"></circle>
+      
+      <text x="296" y="378" class="delta-label">δ · canonical</text>
+    </g>
+
+    
+    <g>
+      <text x="270" y="510" text-anchor="middle" class="pillar-label">Branching</text>
+      <text x="530" y="510" text-anchor="middle" class="pillar-label">Release</text>
+      <text x="790" y="510" text-anchor="middle" class="pillar-label">Security</text>
+      <text x="1050" y="510" text-anchor="middle" class="pillar-label">Testing</text>
+    </g>
+
+  </g>
+
+  
+  <g>
+    
+    <text x="1444" y="158" class="eyebrow">Project · amcheste/engineering-handbook</text>
+
+    
+    <line x1="1444" y1="178" x2="2304" y2="178" class="rule"></line>
+
+    
+    <text x="1444" y="280" class="headline">Alan’s Engineering</text>
+    <text x="1444" y="368" class="headline">Handbook.</text>
+
+    
+    <text x="1444" y="418" class="subtitle">How I build software, and the philosophies behind it.</text>
+
+    
+    <text x="1444" y="566" class="stack">Philosophies · Workflows · CI Automation · AI-Amplified</text>
+
+    
+    <g transform="translate(2216 502)">
+      
+      <rect x="0" y="0" width="88" height="88" fill="#0B0B0C" stroke="rgba(255,255,255,0.18)" stroke-width="1"></rect>
+      
+      <g stroke="rgba(255,255,255,0.55)" stroke-width="1" fill="none">
+        <path d="M 7 14 L 7 7 L 14 7"></path>
+        <path d="M 74 7 L 81 7 L 81 14"></path>
+        <path d="M 7 74 L 7 81 L 14 81"></path>
+        <path d="M 74 81 L 81 81 L 81 74"></path>
+      </g>
+      
+      <text x="20" y="55" text-anchor="middle" class="monogram-letter">A</text>
+      <text x="44" y="51" text-anchor="middle" class="monogram-epsilon">ε</text>
+      <text x="68" y="55" text-anchor="middle" class="monogram-letter">C</text>
+    </g>
+  </g>
+
+  
+  <g class="rule" stroke-linecap="square" fill="none">
+    
+    <path d="M 64 96 L 64 64 L 96 64"></path>
+    
+    <path d="M 2304 64 L 2336 64 L 2336 96"></path>
+    
+    <path d="M 64 590 L 64 622 L 96 622"></path>
+    
+    <path d="M 2304 622 L 2336 622 L 2336 590"></path>
+  </g>
+
+</svg>
