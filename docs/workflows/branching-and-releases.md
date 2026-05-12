@@ -11,9 +11,18 @@ This document is the *how*. For the reasoning behind each decision below, see [B
 | Branch | Purpose | Protection |
 |---|---|---|
 | `main` | Latest release. Always stable. Never directly committed to. | PR required. CI must pass. No force pushes. No deletions. |
-| `develop` | Default branch. Integration for all in-flight work. | PR required. CI must pass (`Lint`, `Commit Lint`). No force pushes. No deletions. |
+| `develop` | **Integration trunk.** Every in-flight change lands here via PR. This is the branch you create features from and PR against. | PR required. CI must pass (`Lint`, `Commit Lint`). No force pushes. No deletions. |
 | `feature/*`, `fix/*`, `chore/*`, `docs/*`, `refactor/*` | Short-lived branches off `develop`. One logical change each. Deleted after merge. | None — ephemeral. |
 | `v*` tags | Cut from `main` at release time. Trigger the release pipeline. | Ruleset: cannot be created, deleted, or non-ff-moved outside the release flow. |
+
+### GitHub default branch setting
+
+Separate from the integration trunk above, GitHub's "default branch" repo setting is a UX pointer. It controls what visitors see on the repo landing page, what `git clone` checks out without a `--branch` flag, and what the PR-creation UI suggests as the base. It does **not** affect where work integrates — develop is the integration trunk regardless.
+
+- **Before the first release:** the setting points at `develop`. Nothing has shipped, so the integration state is the only meaningful state.
+- **After the first release:** the setting flips to `main`. External visitors see the released product, not work-in-flight. Contributors still branch from and PR to `develop` — that doesn't change.
+
+The flip happens automatically as part of `/publish-release`, so a repo's first release also publishes a coherent landing page. The flip is idempotent — every subsequent release re-asserts `main` as the default, with no effect if it's already there.
 
 ---
 
@@ -44,7 +53,7 @@ Two paths:
 **Existing repo:** run `/setup-repo <owner/repo>`. Applies the standard branch model, protection, and tag ruleset to a repo that's already there.
 
 Both skills set up:
-- `develop` branch created from `main` if missing, set as default
+- `develop` branch created from `main` if missing, set as the GitHub default branch (correct for a brand-new repo with no releases yet — see [GitHub default branch setting](#github-default-branch-setting) above; the flip to `main` happens at first release)
 - Branch protection on `develop`. Require PR, require `Lint` and `Commit Lint` status checks
 - Branch protection on `main`. Require PR, require `Lint`
 - Tag ruleset on `v*`. No creation, deletion, or non-fast-forward
@@ -153,14 +162,27 @@ gh run list --limit 3
 
 Watch the pipeline at `https://github.com/amcheste/<repo>/actions`. Pre-release versions (containing `-`, e.g. `-beta.1`) are published as pre-releases and do not become `latest`. Stable versions become `latest` once all pipeline gates pass.
 
+### Step 5. Ensure `main` is the GitHub default branch
+
+After the tag pushes and the pipeline starts, set `main` as the GitHub default branch if it isn't already. On the first release this flips the repo's landing page from `develop` to `main`. On every subsequent release it's a no-op.
+
+```bash
+current=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name')
+if [ "$current" != "main" ]; then
+  gh repo edit --default-branch main
+fi
+```
+
+This is the moment a repo transitions from "no releases yet, show contributors the integration state" to "has released, show external visitors the shipped product." Contributors continue to branch from and PR to `develop` either way — only what GitHub renders on the landing page changes.
+
 ---
 
 ## Release ceremony at a glance
 
 ```
-feature branch ──► develop ──► develop ──► main ──► v1.2.0 tag ──► pipeline
-   (PR merge)      (PR merge)   (CLI merge --no-ff)  (push tag)     (auto-fires)
-                     ▲             ▲
+feature branch ──► develop ──► develop ──► main ──► v1.2.0 tag ──► pipeline ──► default branch
+   (PR merge)      (PR merge)   (CLI merge --no-ff)  (push tag)     (auto-fires)   (→ main on
+                     ▲             ▲                                                first release)
                      │             │
               version bump       CLI only
               PR merged first    (NOT a GitHub PR)
