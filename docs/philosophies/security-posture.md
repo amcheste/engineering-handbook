@@ -8,9 +8,9 @@ This document is the *why*. For the concrete workflow steps and the specific act
 
 ## The core idea
 
-Security is not something I bolt on when a project "gets important enough to matter." It's a baseline that ships with every repo from day one. That baseline is small on purpose. SAST, supply-chain hygiene, vulnerability reporting, branch protection. But it runs uniformly so I never have to ask "is this repo protected?"
+Security is not something I bolt on when a project "gets important enough to matter." It's a baseline that ships with every repo from day one. That baseline is small on purpose — SAST, supply-chain hygiene, vulnerability reporting, branch protection — but it runs uniformly so I never have to ask "is this repo protected?"
 
-The alternative. Adding security gates only when something bad happens. Is how incidents compound. A vulnerable dependency in a "just a side project" repo still lands on my GitHub account, still gets indexed by anyone scraping, and still sets a bad precedent for the next repo I spin up. Uniformity is the cheapest insurance I can buy.
+The alternative — adding security gates only when something bad happens — is how incidents compound. A vulnerable dependency in a "just a side project" repo still lands on my GitHub account, still gets indexed by anyone scraping, and still sets a bad precedent for the next repo I spin up. Uniformity is the cheapest insurance I can buy.
 
 ---
 
@@ -76,6 +76,7 @@ Developers install once: `pre-commit install`. From then on, every `git commit` 
 **CI backstop:** every repo's `validate.yml` runs `gitleaks detect` against the PR. If the pre-commit hook was bypassed or wasn't installed, the PR fails to merge.
 
 **If a secret does leak:**
+
 1. Rotate the secret immediately (invalidate the leaked credential).
 2. Don't rely on `git push --force` to fix it. The secret was already pulled by any CI system, fork, mirror, or clone.
 3. Document the incident in the repo's security notes (or Linear) so future-me remembers.

@@ -1,8 +1,8 @@
 # Design: Claude Bot Account for AI-Authored PRs
 
-**Status:** Design Approved. Pending Implementation
+**Status:** Implemented — the Epsilon agent has been committing and opening PRs as `amcheste-ai-agent` since v0.1.0
 **Author:** Alan Chester
-**Date:** 2026-04-22 (revised 2026-04-23)
+**Date:** 2026-04-22 (revised 2026-04-23; status updated 2026-07-07)
 
 ---
 
@@ -111,7 +111,7 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
 
 ## Proposed Architecture
 
-```
+```text
  Alan (human)                    Claude Code                     GitHub
  ───────────                    ───────────                     ──────
  "add event flags"  ──────►  writes code locally
@@ -124,8 +124,6 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
  reviews in Graphite  ◄─────────────────────────────────────   PR visible in
  approves / merges                                             review queue
 ```
-
-> 📣 **Rendering note:** this ASCII diagram is the canonical reference. A rendered version (DALL-E or similar) is planned. See the issue tracking this doc for the image asset.
 
 ## Components
 
@@ -143,6 +141,7 @@ The rule of thumb: **if Claude is driving, let Claude commit.** Don't commit fro
 | Bio | "Bot account for AI-authored PRs. Code written by Claude, reviewed by @amcheste." |
 
 **Setup steps:**
+
 1. ✅ Create the GitHub account (`amcheste.ai.agent@gmail.com`. Done).
 2. Add the clear bio above and a distinguishing avatar.
 3. Record the account's noreply commit email from *Settings → Emails*.
@@ -158,6 +157,7 @@ A GitHub App is the right auth surface for this. Not a personal access token. Th
 - **Showcases engineering rigor.** This is the "right way" pattern; worth the one-time setup cost.
 
 **Setup steps:**
+
 1. Log into the `amcheste-ai-agent` account.
 2. **Settings → Developer settings → GitHub Apps → New GitHub App**.
 3. App name: `amcheste-ai-agent` (or similar. Must be globally unique on GitHub).
@@ -213,6 +213,7 @@ CLAUDE.md instruction:
 ```
 
 This gives clean separation:
+
 - **Alan commits in Cursor/terminal** → `amcheste` (his normal identity)
 - **Claude Code commits** → `amcheste-ai-agent` (bot identity)
 - **Both** → same repo, same branch, no config switching
@@ -235,7 +236,7 @@ Alan's default `gh auth` stays his. The App token lives in the session's environ
 
 ### 5. CODEOWNERS
 
-```
+```text
 # .github/CODEOWNERS
 * @amcheste
 ```
@@ -244,7 +245,7 @@ Since the PR author is now `amcheste-ai-agent` (not `amcheste`), GitHub will **a
 
 ### 6. Branch Protection
 
-```
+```text
 Settings → Branches → main:
   [x] Require pull request before merging
   [x] Require approvals: 1
@@ -278,6 +279,7 @@ If future workflows need to assign somebody (e.g. "this PR blocks a release; ass
 **For Alan:** Nothing. Talk to Claude the same way. Review PRs in Graphite. Code in Cursor whenever you want. Your commits are yours, Claude's commits are the bot's, even in the same repo on the same branch.
 
 **For Claude Code:** Two differences baked into CLAUDE.md:
+
 1. Commits use `--author="amcheste-ai-agent <...>"` (Alan's git config unchanged)
 2. PR creation uses an installation token from the GitHub App (minted per session)
 
@@ -341,4 +343,4 @@ All previously-open questions are now resolved:
 
 ---
 
-*This design is approved and ready for implementation. Remaining pre-flight: a final review of account names and email addresses for correctness before the App installation step.*
+*This design is implemented and in daily use. The GitHub App is installed on all owned repos, commits are authored as `amcheste-ai-agent` with per-session installation tokens, and CODEOWNERS auto-requests `@amcheste` as reviewer on every bot-authored PR.*

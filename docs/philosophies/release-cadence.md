@@ -52,7 +52,7 @@ This only works because the PR is auto-opened but manually merged. The automatio
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:` | no bump on their own |
 | Any commit with `!` after the type | major |
 
-**Why:** Deferring the bump decision to release time is where semver discipline breaks down. You look at a list of 40 commits, try to remember which ones were breaking, and pick a number. That's error-prone and subjective. Moving the decision to commit time. When I'm looking at a single change and know exactly what it does. Makes it accurate by construction.
+**Why:** Deferring the bump decision to release time is where semver discipline breaks down. You look at a list of 40 commits, try to remember which ones were breaking, and pick a number. That's error-prone and subjective. Moving the decision to commit time — when I'm looking at a single change and know exactly what it does — makes it accurate by construction.
 
 This is enforced mechanically: the validate workflow's Commit Lint job rejects PRs with non-conventional messages. The monthly release workflow reads the commits and suggests the correct bump. A human still confirms, but they're confirming a calculation, not making one.
 

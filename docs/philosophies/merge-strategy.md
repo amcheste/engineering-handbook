@@ -35,6 +35,7 @@ This is also why every Epsilon commit sets `--author` directly rather than relyi
 **Why:** Rebase preserves per-commit authorship. A 3-commit Epsilon PR puts 3 bot-authored commits on `develop`, each with me as co-author — the history is linear, blame is correct, and my contribution graph credits me three times instead of once.
 
 The alternatives are worse:
+
 - **Squash merge** flattens the PR into one commit authored by the merger. The bot's primary authorship is erased; the bot is demoted to a co-author trailer (and even that gets dropped silently in some merge paths). For repos where bot/human distinction matters, this is destructive.
 - **Merge commit (`--no-ff`)** preserves authorship but adds a merge node authored by the merger. The graph gets bubbly; `git log --oneline` becomes harder to scan.
 
@@ -46,7 +47,7 @@ Rebase is the cleanest: linear history *and* preserved authorship.
 
 **Principle:** The release promotion uses `git merge --no-ff` from the command line, not GitHub's UI.
 
-**Why:** Covered in detail in [Branching Strategy §5](./branching-strategy.md#5-releases-preserve-commit-ancestry--cli-merge-not-ui-merge). Short version: GitHub's merge button squashes by default, which corrupts ancestry at the `develop → main` boundary and produces merge conflicts on every subsequent release. The CLI `--no-ff` preserves the graph.
+**Why:** Covered in detail in [Branching Strategy §5](./branching-strategy.md#5-releases-preserve-commit-ancestry-cli-merge-not-ui-merge). Short version: GitHub's merge button squashes by default, which corrupts ancestry at the `develop → main` boundary and produces merge conflicts on every subsequent release. The CLI `--no-ff` preserves the graph.
 
 Note the inversion from principle #2: for PRs, rebase wins because linearity matters and merge bubbles don't carry information. For releases, `--no-ff` wins because the merge node *is* the release event — it's the visible record of "develop was promoted to main here." The merge style should match whether the merge itself carries information.
 
