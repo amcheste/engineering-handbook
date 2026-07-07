@@ -9,10 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- MIT `LICENSE` file — the README badge and license link had pointed at a file that never existed.
+- MIT `LICENSE` file; the README badge and license link had pointed at a file that never existed.
 - Real lint surface in `validate.yml`: markdownlint-cli2 (config in `.markdownlint-cli2.jsonc`), shellcheck over `scripts/`, and lychee offline link checking so every internal link, anchor, and image path must resolve. Replaces the template's `echo TODO` placeholder.
 - Secret-scanning baseline per [Security Posture §4](docs/philosophies/security-posture.md): gitleaks pre-commit hook (`.pre-commit-config.yaml`) and `gitleaks.yml` CI backstop.
-- Rendered merge-strategy diagram (`docs/images/merge-strategy.png`) — the philosophy doc had referenced it since it was written, but the image was never committed.
+- Rendered merge-strategy diagram (`docs/images/merge-strategy.png`); the philosophy doc had referenced it since it was written, but the image was never committed.
 
 ### Changed
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fragment-punctuation tic in the philosophy docs (severed subjects/verbs like "The alternative. … Is how incidents compound.") restored to em-dash constructions.
+- Fragment-punctuation tic in the philosophy docs (severed subjects/verbs like "The alternative. … Is how incidents compound.") rewritten into grammatical sentences using commas, colons, and parentheses, keeping the no-em-dash voice rule.
 - Stale status markers in the [Claude Bot Account design note](docs/design/claude-bot-account.md): header now says Implemented, the "rendered diagram is planned" note is gone (the diagram has existed since v0.1.0), and the footer reflects the App being live.
 - Testing philosophy §6 no longer references private project names; examples are now generic.
 

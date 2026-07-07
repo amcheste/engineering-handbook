@@ -8,9 +8,9 @@ This document is the *why*. For the concrete workflow steps and the specific act
 
 ## The core idea
 
-Security is not something I bolt on when a project "gets important enough to matter." It's a baseline that ships with every repo from day one. That baseline is small on purpose — SAST, supply-chain hygiene, vulnerability reporting, branch protection — but it runs uniformly so I never have to ask "is this repo protected?"
+Security is not something I bolt on when a project "gets important enough to matter." It's a baseline that ships with every repo from day one. That baseline is small on purpose: SAST, supply-chain hygiene, vulnerability reporting, branch protection. But it runs uniformly so I never have to ask "is this repo protected?"
 
-The alternative — adding security gates only when something bad happens — is how incidents compound. A vulnerable dependency in a "just a side project" repo still lands on my GitHub account, still gets indexed by anyone scraping, and still sets a bad precedent for the next repo I spin up. Uniformity is the cheapest insurance I can buy.
+The alternative, adding security gates only when something bad happens, is how incidents compound. A vulnerable dependency in a "just a side project" repo still lands on my GitHub account, still gets indexed by anyone scraping, and still sets a bad precedent for the next repo I spin up. Uniformity is the cheapest insurance I can buy.
 
 ---
 

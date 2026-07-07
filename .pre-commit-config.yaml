@@ -1,4 +1,4 @@
-# Pre-commit hooks — the first layer of the secret-scanning defense
+# Pre-commit hooks: the first layer of the secret-scanning defense
 # described in docs/philosophies/security-posture.md §4.
 #
 # One-time setup:  pre-commit install

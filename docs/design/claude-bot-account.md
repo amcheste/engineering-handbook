@@ -1,6 +1,6 @@
 # Design: Claude Bot Account for AI-Authored PRs
 
-**Status:** Implemented — the Epsilon agent has been committing and opening PRs as `amcheste-ai-agent` since v0.1.0
+**Status:** Implemented. The Epsilon agent has been committing and opening PRs as `amcheste-ai-agent` since v0.1.0
 **Author:** Alan Chester
 **Date:** 2026-04-22 (revised 2026-04-23; status updated 2026-07-07)
 
