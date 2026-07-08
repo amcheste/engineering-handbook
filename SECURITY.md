@@ -8,9 +8,10 @@ Only the latest release is actively maintained.
 
 **Please do not open a public issue for security vulnerabilities.**
 
-Use GitHub's [private vulnerability reporting](../../security/advisories/new) to report issues confidentially.
+Use GitHub's [private vulnerability reporting](https://github.com/amcheste/engineering-handbook/security/advisories/new) to report issues confidentially.
 
 Please include:
+
 - A clear description of the vulnerability
 - Steps to reproduce
 - Potential impact

@@ -10,6 +10,8 @@ This document is the *how*. For the reasoning behind each piece, see [Release Ca
 
 Every repo created from `repo-template` starts with a standard set of workflows under `.github/workflows/`. Each one is independently useful; together they form a consistent CI surface across all repos so that "how do I contribute?" and "what does CI check?" have the same answer everywhere.
 
+> **Where this is heading:** the workflow *logic* is moving out of per-repo copies and into [`amcheste/gh-workflows`](https://github.com/amcheste/gh-workflows) as reusable workflows, with each repo keeping only a thin caller stub pinned to a release tag. Copies drift (a bug in the monthly release workflow once required 13 identical fix PRs); references do not. The model, pinning contract, and rollout plan live in the [Centralized CI design note](../design/centralized-ci-workflows.md). The per-workflow descriptions below still define what each workflow does, wherever its implementation lives.
+
 The table below is the complete surface at a glance. The rest of the doc covers each workflow in more depth.
 
 | Workflow | Trigger | Purpose | Gates merge? |
@@ -32,6 +34,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 **Fires on:** every push and PR targeting `main` or `develop`.
 
 **Does:**
+
 1. **Lint**. Language-specific linter (`ruff`, `golangci-lint`, `shellcheck`, whatever fits the repo). This is the check that gets required in branch protection.
 2. **Commit Lint**. Enforces [Conventional Commits](https://www.conventionalcommits.org/). Rejects PRs where any commit message doesn't match the `<type>[(scope)]: <description>` grammar with a recognized type (`feat` / `fix` / `docs` / `chore` / `refactor` / `test` / `ci`).
 3. **Semver suggestion**. Reads the commits on the PR and posts a suggested bump (`major` / `minor` / `patch` / `none`) in the PR output. `feat:` → minor, `fix:` → patch, any `!` → major.
@@ -72,6 +75,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 **Fires on:** cron (1st of each month, early UTC) + `workflow_dispatch` for manual trigger.
 
 **Does:**
+
 1. Checks `git log` on `develop` since the last release tag for commits matching `chore(deps):` or `chore: bump`.
 2. If none, exits silently (no release this cycle).
 3. If any, runs `scripts/bump-version.sh patch` to increment the VERSION file.
@@ -90,6 +94,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 **Fires on:** pushing a `v*` tag to `main`.
 
 **Does (structure varies by repo; this is the pattern):**
+
 1. **Validate**. Re-runs the full validate workflow as a sanity check.
 2. **Acceptance gate** (if applicable). Runs the heavy end-to-end test suite.
 3. **Publish**. Builds artifacts (containers, binaries, packages) and publishes to the appropriate registry (GHCR, npm, PyPI, a GitHub Release, etc.).
@@ -106,6 +111,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 **Does:** Runs Semgrep with the `p/secrets` rule pack (plus language-specific packs per repo). Generates SARIF.
 
 **Upload behavior:**
+
 - On `main` pushes and scheduled runs: uploads SARIF to the GitHub Security tab.
 - On PRs: generates SARIF but does **not** upload (would require GitHub Advanced Security). Findings appear as workflow annotations instead.
 
@@ -120,6 +126,7 @@ The table below is the complete surface at a glance. The rest of the doc covers 
 **Does:** Runs [gitleaks](https://github.com/gitleaks/gitleaks) against the changes. Fails the job (and therefore gates the merge) if a secret is detected.
 
 **Why it matters:** The primary defense against committing secrets is the **pre-commit hook** (also gitleaks, wired via the [pre-commit framework](https://pre-commit.com/) and `.pre-commit-config.yaml` in the repo). Developers install it once with `pre-commit install` and every `git commit` runs the scan before the commit is created. The CI check here is a belt-and-suspenders layer for:
+
 - contributors without pre-commit installed
 - `git commit --no-verify` bypasses
 - Claude Code sessions or other automation that doesn't run local hooks
@@ -145,6 +152,7 @@ See [Security Posture §4](../philosophies/security-posture.md#4-prevent-secrets
 **Fires on:** daily cron (09:00 UTC).
 
 **Does:**
+
 - Marks issues/PRs with no activity in **30 days** as `stale`.
 - Closes them after another **7 days** of continued inactivity.
 - Exempt labels: `pinned`, `security`.

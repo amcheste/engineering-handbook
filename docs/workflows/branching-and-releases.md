@@ -53,6 +53,7 @@ Two paths:
 **Existing repo:** run `/setup-repo <owner/repo>`. Applies the standard branch model, protection, and tag ruleset to a repo that's already there.
 
 Both skills set up:
+
 - `develop` branch created from `main` if missing, set as the GitHub default branch (correct for a brand-new repo with no releases yet — see [GitHub default branch setting](#github-default-branch-setting) above; the flip to `main` happens at first release)
 - Branch protection on `develop`. Require PR, require `Lint` and `Commit Lint` status checks
 - Branch protection on `main`. Require PR, require `Lint`
@@ -135,7 +136,7 @@ Wait for CI. Merge via the GitHub UI.
 
 ### Step 2. Promote `develop` → `main` via CLI merge
 
-**This step does *not* use a GitHub PR.** GitHub's merge button squash-merges by default, which drops commit ancestry and causes merge conflicts on every subsequent release. See [the philosophy doc](../philosophies/branching-strategy.md#5-releases-preserve-commit-ancestry--cli-merge-not-ui-merge) for the full story.
+**This step does *not* use a GitHub PR.** GitHub's merge button squash-merges by default, which drops commit ancestry and causes merge conflicts on every subsequent release. See [the philosophy doc](../philosophies/branching-strategy.md#5-releases-preserve-commit-ancestry-cli-merge-not-ui-merge) for the full story.
 
 ```bash
 git checkout main && git pull
@@ -179,7 +180,7 @@ This is the moment a repo transitions from "no releases yet, show contributors t
 
 ## Release ceremony at a glance
 
-```
+```text
 feature branch ──► develop ──► develop ──► main ──► v1.2.0 tag ──► pipeline ──► default branch
    (PR merge)      (PR merge)   (CLI merge --no-ff)  (push tag)     (auto-fires)   (→ main on
                      ▲             ▲                                                first release)
