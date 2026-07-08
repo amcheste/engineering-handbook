@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-08
+
 ### Added
 
 - [Centralized CI design note](docs/design/centralized-ci-workflows.md): workflow logic moves to `amcheste/gh-workflows` as reusable workflows with exact-tag pins and Dependabot propagation; repos keep thin caller stubs. Pointer added in [CI Automation Surface](docs/workflows/ci-automation.md).
