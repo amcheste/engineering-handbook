@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [Centralized CI design note](docs/design/centralized-ci-workflows.md): workflow logic moves to `amcheste/gh-workflows` as reusable workflows with exact-tag pins and Dependabot propagation; repos keep thin caller stubs. Pointer added in [CI Automation Surface](docs/workflows/ci-automation.md).
 - MIT `LICENSE` file; the README badge and license link had pointed at a file that never existed.
 - Real lint surface in `validate.yml`: markdownlint-cli2 (config in `.markdownlint-cli2.jsonc`), shellcheck over `scripts/`, and lychee offline link checking so every internal link, anchor, and image path must resolve. Replaces the template's `echo TODO` placeholder.
 - Secret-scanning baseline per [Security Posture §4](docs/philosophies/security-posture.md): gitleaks pre-commit hook (`.pre-commit-config.yaml`) and `gitleaks.yml` CI backstop.

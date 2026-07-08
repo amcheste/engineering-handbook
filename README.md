@@ -49,6 +49,7 @@ The *how*. Concrete steps, commands, and tooling that implement the philosophies
 Brainstorm-level design docs capturing how I'm thinking about specific engineering problems. Not polished specs. Working documents that evolve as decisions get made.
 
 - [Claude Bot Account for AI-Authored PRs](docs/design/claude-bot-account.md). Separating authorship from review so AI-written code has a clean audit trail.
+- [Centralized CI via Reusable Workflows](docs/design/centralized-ci-workflows.md). Moving workflow logic into one versioned repo so a CI change lands once instead of once per repo.
 
 *More chapters are in progress.*
 
