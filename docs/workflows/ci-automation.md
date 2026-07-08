@@ -10,6 +10,8 @@ This document is the *how*. For the reasoning behind each piece, see [Release Ca
 
 Every repo created from `repo-template` starts with a standard set of workflows under `.github/workflows/`. Each one is independently useful; together they form a consistent CI surface across all repos so that "how do I contribute?" and "what does CI check?" have the same answer everywhere.
 
+> **Where this is heading:** the workflow *logic* is moving out of per-repo copies and into [`amcheste/gh-workflows`](https://github.com/amcheste/gh-workflows) as reusable workflows, with each repo keeping only a thin caller stub pinned to a release tag. Copies drift (a bug in the monthly release workflow once required 13 identical fix PRs); references do not. The model, pinning contract, and rollout plan live in the [Centralized CI design note](../design/centralized-ci-workflows.md). The per-workflow descriptions below still define what each workflow does, wherever its implementation lives.
+
 The table below is the complete surface at a glance. The rest of the doc covers each workflow in more depth.
 
 | Workflow | Trigger | Purpose | Gates merge? |
