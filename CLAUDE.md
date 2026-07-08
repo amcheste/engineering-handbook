@@ -17,13 +17,16 @@ This is my personal engineering handbook. A documentation-primarily repo that ca
 ## Developer Preferences
 
 ### Editor
+
 - Primary: Vim
 - AI editor: Cursor
 
 ### Shell
+
 - zsh, minimal prompt
 
 ### Git & GitHub Workflow
+
 - **Branch model:** `main` = latest release. `develop` = integration branch.
 - Always branch from `develop`, never commit directly
 - PRs always target `develop`
@@ -31,6 +34,7 @@ This is my personal engineering handbook. A documentation-primarily repo that ca
 - Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`
 
 ### Scripting Standards
+
 - Shell scripts must pass `shellcheck`
 - Use `set -euo pipefail`
 - Scripts should be idempotent

@@ -8,7 +8,7 @@ This document is the *why*. Concrete testing conventions per-language or per-pro
 
 ## The core idea
 
-Tests exist to protect behavior that matters. That's the whole philosophy. Everything else. Coverage thresholds, test pyramids, TDD/BDD/TDC acronyms. Is scaffolding around that idea, and some of that scaffolding is actively unhelpful.
+Tests exist to protect behavior that matters. That's the whole philosophy. Everything else (coverage thresholds, test pyramids, TDD/BDD/TDC acronyms) is scaffolding around that idea, and some of that scaffolding is actively unhelpful.
 
 A test is worth writing if it would fail when I break something that matters, and pass otherwise. A test that fails when I refactor without changing behavior is a bad test. A test that passes while real behavior silently regresses is a worse test. Everything below is an elaboration of that one principle.
 
@@ -76,7 +76,7 @@ This also means the repo has to be honest about its dependencies. If the test re
 
 **Why:** A test that silently passes in CI because it can't run is worse than no test. A test that requires "wait, do I have the right env var set?" is a daily paper cut. Either the test runs everywhere or it doesn't. Ambiguity is the failure mode to avoid.
 
-For golf-coach-agent's R-Cloud scraper, cam-brand's distribution scripts, anything that talks to a third party I don't control: the integration layer is tested manually with documented steps. The pure logic extracted from it is unit-tested and runs in CI.
+For anything that talks to a third party I don't control (a scraper against someone else's site, a script that publishes to an external service), the integration layer is tested manually with documented steps. The pure logic extracted from it is unit-tested and runs in CI.
 
 ---
 

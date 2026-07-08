@@ -92,7 +92,7 @@ This is also why this handbook is canonical. Per-repo `CONTRIBUTING.md` files po
 
 - It's not trunk-based development. Trunk-based is great for teams that release continuously off a single branch. I don't.
 - It's not GitFlow. GitFlow adds release branches, hotfix branches, and long-lived support branches. I don't need any of that at this scale.
-- It's not dogma. If a repo genuinely needs a different model. Say, a docs-only repo where there's no meaningful "release". The model bends. But bending is the exception, and it's a deliberate choice, not a drift.
+- It's not dogma. If a repo genuinely needs a different model (say, a docs-only repo where there's no meaningful "release"), the model bends. But bending is the exception, and it's a deliberate choice, not a drift.
 
 ---
 

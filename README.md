@@ -50,7 +50,7 @@ Brainstorm-level design docs capturing how I'm thinking about specific engineeri
 
 - [Claude Bot Account for AI-Authored PRs](docs/design/claude-bot-account.md). Separating authorship from review so AI-written code has a clean audit trail.
 
-_More chapters are in progress._
+*More chapters are in progress.*
 
 ## How this repo works
 
