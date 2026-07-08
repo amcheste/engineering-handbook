@@ -1,8 +1,8 @@
 # Design: Centralized CI via Reusable Workflows
 
-**Status:** Approved. Rolling out
+**Status:** Implemented. Universal tier live; fleet conversion PRs in review
 **Author:** Alan Chester
-**Date:** 2026-07-08
+**Date:** 2026-07-08 (status updated same day; it was a productive one)
 
 ---
 
@@ -88,11 +88,12 @@ A personal GitHub account has no org-level "required workflows," so adoption can
 ## Rollout
 
 1. ~~Create `gh-workflows`, port the first two universal workflows (monthly dependency release with the tag fix, gitleaks), self-consume, actionlint.~~ Done ([PR #1](https://github.com/amcheste/gh-workflows/pull/1)).
-2. Release `v1.0.0`.
-3. Convert `repo-template` to stubs, and fix its gaps while there (it currently ships no `LICENSE`, `VERSION`, or `CHANGELOG`).
-4. Fleet-convert existing repos, one sweep per workflow, after the open per-repo fix PRs merge.
-5. Port the remaining universal workflows, then validate by type.
-6. Stand up the monthly fleet audit.
+2. ~~Release `v1.0.0`.~~ Done, followed same-day by `v1.0.1` carrying the two pilot findings (title-scoped release-PR guard; optional `RELEASE_PR_TOKEN` so auto-opened release PRs can trigger their own CI).
+3. ~~Pilot one repo before the fleet.~~ Done: the engineering-handbook converted, then shipped `v0.2.1` end to end through the centralized machinery. The pilot surfaced five latent defects, all fixed centrally.
+4. ~~Convert `repo-template` to stubs and fix its gaps~~ (`LICENSE`, `VERSION`, `CHANGELOG`, real default lint, placeholder advisory URL): [PR #27](https://github.com/amcheste/repo-template/pull/27).
+5. ~~Fleet-convert existing repos~~: conversion PRs open across all 11 remaining repos (monthly release stub plus a gitleaks stub everywhere).
+6. ~~Port the remaining universal workflows, then validate.~~ Done: sast (rule packs as input), scorecard (default-branch guard), stale, release-drafter, and a docs/tooling validate ([gh-workflows PR #8](https://github.com/amcheste/gh-workflows/pull/8), released as `v1.1.0`).
+7. ~~Stand up the monthly fleet audit.~~ Done: an Epsilon scheduled task runs on the 2nd of each month (the day after the monthly releases fire), compares every repo's stubs to the standard, opens fix PRs on drift, and reports anything it cannot fix.
 
 ## Risks
 
@@ -103,7 +104,7 @@ A personal GitHub account has no org-level "required workflows," so adoption can
 | Debugging gains an indirection hop | Stubs are four lines; the reusable's header comment names the caller contract; run logs link to the exact pinned version |
 | Required-check names change (`Validate / Lint`) | One-time `/setup-repo` sync per repo during conversion |
 
-## Open questions
+## Resolved questions
 
-1. Whether `validate` becomes one reusable with a `repo-type` input or one reusable per type. Leaning per-type: simpler files, no conditional soup.
-2. Whether the fleet audit lives in `gh-workflows` (a scheduled workflow with a repo list) or as an Epsilon scheduled task. Leaning Epsilon: it can open fix PRs, not just report.
+1. ~~One `validate` reusable with a `repo-type` input, or one per type?~~ Neither, exactly: one docs/tooling reusable (`reusable-validate.yml`, with an optional `shellcheck-paths` input) covers every repo without a language toolchain, and service repos keep a local `validate.yml` because their lint and test commands are per-repo data. Adopters' required checks become `validate / Lint` and `validate / Commit Lint`.
+2. ~~Fleet audit in `gh-workflows` or as an Epsilon task?~~ Epsilon scheduled task, monthly on the 2nd. It can open fix PRs rather than just report, and it runs with the bot identity and full git tooling.
