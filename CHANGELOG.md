@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Pilot conversion to centralized CI: `gitleaks.yml` and `monthly-dependency-release.yml` are now thin stubs calling the `amcheste/gh-workflows` reusables pinned at `v1.0.0`. This repo is the fleet pilot; the local implementations they replace (including the tag-lookup fix from PR #32, which the reusable carries) move to gh-workflows. Required check renamed `Gitleaks` to `gitleaks / Gitleaks`.
 - [Development Tooling Stack](docs/tooling/dev-tooling-stack.md) restructured into the handbook's house style: fixed heading hierarchy, prose over fragment bullets, layer table up front, redundant Role Definitions/Summary sections folded away.
 - Repo setting: merged PR head branches are now deleted automatically (matches the "delete after merge" rule in the branching philosophy).
 
