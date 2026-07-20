@@ -48,12 +48,15 @@ on:
     branches: [main, develop]
 permissions:
   contents: read
+  pull-requests: read
 jobs:
   gitleaks:
-    uses: amcheste/gh-workflows/.github/workflows/reusable-gitleaks.yml@v1.0.0
+    uses: amcheste/gh-workflows/.github/workflows/reusable-gitleaks.yml@v1.1.3
 ```
 
 `repo-template` ships stubs instead of full copies, so new repos are born centralized.
+
+A stub's `permissions:` block must grant everything its pinned reusable workflow's jobs request — a reusable workflow can only *downgrade* the caller's token, never elevate it, so any gap here fails the job at startup (see the fleet permissions incident below). Don't copy this example's permission set as gospel for other workflows: check the pinned reusable's own header comment, which documents its actual caller contract.
 
 ### Pinning and propagation
 
@@ -64,7 +67,9 @@ Callers pin **exact release tags** (`@v1.0.0`), never branches and never moving 
 
 Propagation is Dependabot's job. It treats reusable-workflow references like actions: when `gh-workflows` tags a new release, every caller gets a bump PR through its normal CI and review gates, and the monthly dependency release ships it. A central change therefore reaches the fleet in a governed way within the normal dependency cadence, not instantly. That trade is deliberate: instant propagation is also instant fleet-wide breakage when a central change is bad.
 
-The versioning contract: patch and minor releases of `gh-workflows` are behavior-compatible for callers. Anything that changes required inputs, permissions, or observable behavior in a breaking way is a major bump, with the migration documented in the release notes.
+The versioning contract: patch and minor releases of `gh-workflows` are behavior-compatible for callers. Anything that changes required inputs, permissions, or observable behavior in a breaking way is a major bump, with the migration documented in the release notes. **In practice this means any edit to a reusable workflow's `permissions:` block — workflow-level or job-level — is a breaking change by definition and must be committed `fix!:`/`feat!:`, never a bare `fix:`.** The semver-bump suggestion in `reusable-validate.yml` only looks for the `!` marker; a plain `fix:` gets suggested (and, per the 2026-07-08 incident below, actually released) as a patch even when it adds a required permission.
+
+**Fleet permissions incident (2026-07-08 – 2026-07-20):** `reusable-gitleaks.yml`, `reusable-sast.yml`, and `reusable-scorecard.yml` each gained a new required caller permission across v1.1.1–v1.1.3 (2026-07-08/09), committed as plain `fix:` and released as patches. `reusable-stale.yml` shipped with an insufficient caller example from v1.1.0's initial release and was never revisited. Dependabot auto-proposed the patch bumps as routine, so every caller that merged them (or was born after with the bad example) silently lost CI: `startup_failure` on Stale, SAST, Scorecard, and Gitleaks across roughly 20 repos, undetected until a manual audit on 2026-07-20 (prompted by an unrelated unread-notifications check) found and fixed all of it. No single run failure paged anyone — GitHub Actions doesn't surface `startup_failure` as loudly as a failed test — so this sat latent for up to two weeks. Reinforces the fleet-audit case below.
 
 ### Repo-type taxonomy
 
@@ -82,7 +87,7 @@ The universal tier centralizes first; it is identical everywhere and benefits mo
 A personal GitHub account has no org-level "required workflows," so adoption cannot be forced mechanically; it has to be verified. The governance loop:
 
 - **Scorecard** (already fleet-wide) audits the third-party posture.
-- **A fleet audit** runs monthly: compare each repo's stubs against the standard for its type, open PRs on drift. This is a natural Epsilon task and closes the same gap that let the tag-lookup bug sit latent for months.
+- **A fleet audit** runs monthly: compare each repo's stubs against the standard for its type, open PRs on drift. This is a natural Epsilon task and closes the same gap that let the tag-lookup bug sit latent for months — and, per the 2026-07-08–07-20 incident above, let a caller-permissions regression sit latent across ~20 repos for two weeks. Not yet automated; resolved as an open question below.
 - If the repo count keeps growing, moving to a GitHub organization unlocks required workflows and org rulesets; that is a structural decision outside this note's scope.
 
 ## Rollout
@@ -106,4 +111,4 @@ A personal GitHub account has no org-level "required workflows," so adoption can
 ## Open questions
 
 1. Whether `validate` becomes one reusable with a `repo-type` input or one reusable per type. Leaning per-type: simpler files, no conditional soup.
-2. Whether the fleet audit lives in `gh-workflows` (a scheduled workflow with a repo list) or as an Epsilon scheduled task. Leaning Epsilon: it can open fix PRs, not just report.
+2. ~~Whether the fleet audit lives in `gh-workflows` (a scheduled workflow with a repo list) or as an Epsilon scheduled task.~~ **Resolved by the 2026-07-20 incident: Epsilon.** The manual audit that day (permissions requested by each reusable workflow vs. what every caller stub grants) is exactly this check, done once by hand instead of on a schedule. It should be a recurring Epsilon scheduled task, not a `gh-workflows` workflow — it needs to open fix PRs across the whole fleet, which a workflow scoped to one repo can't do.
